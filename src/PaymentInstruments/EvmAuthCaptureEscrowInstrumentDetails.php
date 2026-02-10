@@ -30,17 +30,12 @@ use LocalProtocol\PaymentInstruments\EvmAuthCaptureEscrowInstrumentDetails\Token
  *   preapprovalExpiresAt: \DateTimeInterface,
  *   receiver: string,
  *   refundExpiresAt: \DateTimeInterface,
- *   type: 'evm_auth_capture_escrow',
  * }
  */
 final class EvmAuthCaptureEscrowInstrumentDetails implements BaseModel
 {
     /** @use SdkModel<EvmAuthCaptureEscrowInstrumentDetailsShape> */
     use SdkModel;
-
-    /** @var 'evm_auth_capture_escrow' $type */
-    #[Required]
-    public string $type = 'evm_auth_capture_escrow';
 
     /**
      * EVM token identifier used for auth/capture settlement.
@@ -358,17 +353,6 @@ final class EvmAuthCaptureEscrowInstrumentDetails implements BaseModel
     ): self {
         $self = clone $this;
         $self['refundExpiresAt'] = $refundExpiresAt;
-
-        return $self;
-    }
-
-    /**
-     * @param 'evm_auth_capture_escrow' $type
-     */
-    public function withType(string $type): self
-    {
-        $self = clone $this;
-        $self['type'] = $type;
 
         return $self;
     }
