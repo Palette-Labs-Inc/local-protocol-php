@@ -6,6 +6,8 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Documentation
 
+The REST API documentation can be found on [localprotocol.xyz](https://localprotocol.xyz).
+
 ## Installation
 
 To use this package, install via Composer by adding the following to your application's `composer.json`:
@@ -40,9 +42,20 @@ use LocalProtocol\Client;
 
 $client = new Client(apiKey: getenv('LOCAL_PROTOCOL_API_KEY') ?: 'My API Key');
 
-$wellKnown = $client->wellKnown->retrieve();
+$deliveryRequest = $client->requests->create(
+  id: 'req_demo_123',
+  dropoffLocation: [
+    'coordinates' => ['latitude' => 37.7875, 'longitude' => -122.4073]
+  ],
+  dropoffTime: new \DateTimeImmutable('2026-02-10T17:30:00Z'),
+  nonce: 'nonce_demo_123',
+  pickupLocation: [
+    'coordinates' => ['latitude' => 37.7751, 'longitude' => -122.4193]
+  ],
+  pickupTime: new \DateTimeImmutable('2026-02-10T17:00:00Z'),
+);
 
-var_dump($wellKnown->capabilities);
+var_dump($deliveryRequest->id);
 ```
 
 ### Value Objects
