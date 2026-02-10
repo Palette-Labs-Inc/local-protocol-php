@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.0 (2026-02-10)
+
+Full Changelog: [v0.1.0...v0.2.0](https://github.com/Palette-Labs-Inc/local-protocol-php/compare/v0.1.0...v0.2.0)
+
+### Features
+
+* **api:** api update ([0fdb9b8](https://github.com/Palette-Labs-Inc/local-protocol-php/commit/0fdb9b81db105c5192f10a51ae97307395de8d6f))
+
+
+### Chores
+
+* remove custom code ([b39bda5](https://github.com/Palette-Labs-Inc/local-protocol-php/commit/b39bda59c22b4167158b736fb6d9bce7349bf304))
+
 ## 0.1.0 (2026-02-10)
 
 Full Changelog: [v0.0.1...v0.1.0](https://github.com/Palette-Labs-Inc/local-protocol-php/compare/v0.0.1...v0.1.0)
