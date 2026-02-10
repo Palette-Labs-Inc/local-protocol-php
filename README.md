@@ -10,14 +10,12 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 To use this package, install via Composer by adding the following to your application's `composer.json`:
 
-<!-- x-release-please-start-version -->
-
 ```json
 {
   "repositories": [
     {
       "type": "vcs",
-      "url": "git@github.com:Palette-Labs-Inc/local-protocol-php.git"
+      "url": "git@github.com:stainless-sdks/local-protocol-php.git"
     }
   ],
   "require": {
@@ -25,8 +23,6 @@ To use this package, install via Composer by adding the following to your applic
   }
 }
 ```
-
-<!-- x-release-please-end -->
 
 ## Usage
 
@@ -166,4 +162,4 @@ PHP 8.1.0 or higher.
 
 ## Contributing
 
-See [the contributing documentation](https://github.com/Palette-Labs-Inc/local-protocol-php/tree/main/CONTRIBUTING.md).
+See [the contributing documentation](https://github.com/stainless-sdks/local-protocol-php/tree/main/CONTRIBUTING.md).
