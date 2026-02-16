@@ -10,7 +10,6 @@ use LocalProtocol\Core\Conversion\ListOf;
 use LocalProtocol\Core\Exceptions\APIException;
 use LocalProtocol\RequestOptions;
 use LocalProtocol\Requests\DeliveryRequest;
-use LocalProtocol\Requests\Location;
 use LocalProtocol\Requests\RequestCreateParams;
 use LocalProtocol\ServiceContracts\RequestsRawContract;
 
@@ -35,10 +34,10 @@ final class RequestsRawService implements RequestsRawContract
      *
      * @param array{
      *   id: string,
-     *   dropoffLocation: Location|LocationShape,
+     *   dropoffLocation: LocationShape,
      *   dropoffTime: \DateTimeInterface,
      *   nonce: string,
-     *   pickupLocation: Location|LocationShape,
+     *   pickupLocation: LocationShape,
      *   pickupTime: \DateTimeInterface,
      *   dropoffInstructions?: string,
      *   pickupInstructions?: string,

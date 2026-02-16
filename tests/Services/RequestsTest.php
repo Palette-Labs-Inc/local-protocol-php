@@ -37,10 +37,10 @@ final class RequestsTest extends TestCase
 
         $result = $this->client->requests->create(
             id: 'id',
-            dropoffLocation: [],
+            dropoffLocation: ['postalAddress' => []],
             dropoffTime: new \DateTimeImmutable('2019-12-27T18:11:19.117Z'),
             nonce: 'nonce',
-            pickupLocation: [],
+            pickupLocation: ['postalAddress' => []],
             pickupTime: new \DateTimeImmutable('2019-12-27T18:11:19.117Z'),
         );
 
@@ -58,7 +58,6 @@ final class RequestsTest extends TestCase
         $result = $this->client->requests->create(
             id: 'id',
             dropoffLocation: [
-                'coordinates' => ['latitude' => -90, 'longitude' => -180],
                 'postalAddress' => [
                     'addressCountry' => 'address_country',
                     'addressLocality' => 'address_locality',
@@ -70,11 +69,11 @@ final class RequestsTest extends TestCase
                     'postalCode' => 'postal_code',
                     'streetAddress' => 'street_address',
                 ],
+                'coordinates' => ['latitude' => -90, 'longitude' => -180],
             ],
             dropoffTime: new \DateTimeImmutable('2019-12-27T18:11:19.117Z'),
             nonce: 'nonce',
             pickupLocation: [
-                'coordinates' => ['latitude' => -90, 'longitude' => -180],
                 'postalAddress' => [
                     'addressCountry' => 'address_country',
                     'addressLocality' => 'address_locality',
@@ -86,6 +85,7 @@ final class RequestsTest extends TestCase
                     'postalCode' => 'postal_code',
                     'streetAddress' => 'street_address',
                 ],
+                'coordinates' => ['latitude' => -90, 'longitude' => -180],
             ],
             pickupTime: new \DateTimeImmutable('2019-12-27T18:11:19.117Z'),
             dropoffInstructions: 'dropoff_instructions',

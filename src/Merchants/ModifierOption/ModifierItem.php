@@ -8,17 +8,17 @@ use LocalProtocol\Core\Attributes\Optional;
 use LocalProtocol\Core\Attributes\Required;
 use LocalProtocol\Core\Concerns\SdkModel;
 use LocalProtocol\Core\Contracts\BaseModel;
-use LocalProtocol\PaymentInstruments\Amount;
+use LocalProtocol\Merchants\ModifierOption\ModifierItem\Price;
 
 /**
  * Modifier item for this option.
  *
- * @phpstan-import-type AmountShape from \LocalProtocol\PaymentInstruments\Amount
+ * @phpstan-import-type PriceShape from \LocalProtocol\Merchants\ModifierOption\ModifierItem\Price
  *
  * @phpstan-type ModifierItemShape = array{
  *   id: string,
  *   name: string,
- *   price: Amount|AmountShape,
+ *   price: Price|PriceShape,
  *   description?: string|null,
  *   metadata?: array<string,mixed>|null,
  * }
@@ -44,7 +44,7 @@ final class ModifierItem implements BaseModel
      * Price for this modifier item.
      */
     #[Required]
-    public Amount $price;
+    public Price $price;
 
     /**
      * Optional modifier item description.
@@ -53,7 +53,7 @@ final class ModifierItem implements BaseModel
     public ?string $description;
 
     /**
-     * Business-defined custom data.
+     * Business-defined custom data extending the modifier item.
      *
      * @var array<string,mixed>|null $metadata
      */
@@ -84,13 +84,13 @@ final class ModifierItem implements BaseModel
      *
      * You must use named parameters to construct any parameters with a default value.
      *
-     * @param Amount|AmountShape $price
+     * @param Price|PriceShape $price
      * @param array<string,mixed>|null $metadata
      */
     public static function with(
         string $id,
         string $name,
-        Amount|array $price,
+        Price|array $price,
         ?string $description = null,
         ?array $metadata = null,
     ): self {
@@ -131,9 +131,9 @@ final class ModifierItem implements BaseModel
     /**
      * Price for this modifier item.
      *
-     * @param Amount|AmountShape $price
+     * @param Price|PriceShape $price
      */
-    public function withPrice(Amount|array $price): self
+    public function withPrice(Price|array $price): self
     {
         $self = clone $this;
         $self['price'] = $price;
@@ -153,7 +153,7 @@ final class ModifierItem implements BaseModel
     }
 
     /**
-     * Business-defined custom data.
+     * Business-defined custom data extending the modifier item.
      *
      * @param array<string,mixed> $metadata
      */

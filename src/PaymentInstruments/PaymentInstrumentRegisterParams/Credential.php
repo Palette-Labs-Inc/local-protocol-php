@@ -9,7 +9,7 @@ use LocalProtocol\Core\Concerns\SdkModel;
 use LocalProtocol\Core\Contracts\BaseModel;
 
 /**
- * Base definition for any payment credential.
+ * The base definition for any payment credential. Handlers define specific credential types.
  *
  * @phpstan-type CredentialShape = array{type: string}
  */
@@ -19,7 +19,7 @@ final class Credential implements BaseModel
     use SdkModel;
 
     /**
-     * Credential type discriminator.
+     * The credential type discriminator. Specific schemas will constrain this to a constant value.
      */
     #[Required]
     public string $type;
@@ -58,7 +58,7 @@ final class Credential implements BaseModel
     }
 
     /**
-     * Credential type discriminator.
+     * The credential type discriminator. Specific schemas will constrain this to a constant value.
      */
     public function withType(string $type): self
     {

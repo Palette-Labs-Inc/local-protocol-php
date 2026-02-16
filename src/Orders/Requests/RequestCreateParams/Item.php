@@ -9,7 +9,7 @@ use LocalProtocol\Core\Concerns\SdkModel;
 use LocalProtocol\Core\Contracts\BaseModel;
 
 /**
- * An item in a cart.
+ * Cart Item.
  *
  * @phpstan-type ItemShape = array{id: string, quantity: int}
  */

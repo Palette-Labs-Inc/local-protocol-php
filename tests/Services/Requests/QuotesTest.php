@@ -40,11 +40,15 @@ final class QuotesTest extends TestCase
             id: 'id',
             currency: 'SEW',
             dropoffEstimate: new \DateTimeImmutable('2019-12-27T18:11:19.117Z'),
-            dropoffLocation: [],
+            dropoffLocation: ['postalAddress' => []],
             nonce: 'nonce',
-            payment: [],
+            payment: [
+                'instruments' => [
+                    ['id' => 'id', 'handlerID' => 'handler_id', 'type' => 'type'],
+                ],
+            ],
             pickupEstimate: new \DateTimeImmutable('2019-12-27T18:11:19.117Z'),
-            pickupLocation: [],
+            pickupLocation: ['postalAddress' => []],
             price: 0,
         );
 
@@ -65,7 +69,6 @@ final class QuotesTest extends TestCase
             currency: 'SEW',
             dropoffEstimate: new \DateTimeImmutable('2019-12-27T18:11:19.117Z'),
             dropoffLocation: [
-                'coordinates' => ['latitude' => -90, 'longitude' => -180],
                 'postalAddress' => [
                     'addressCountry' => 'address_country',
                     'addressLocality' => 'address_locality',
@@ -77,6 +80,7 @@ final class QuotesTest extends TestCase
                     'postalCode' => 'postal_code',
                     'streetAddress' => 'street_address',
                 ],
+                'coordinates' => ['latitude' => -90, 'longitude' => -180],
             ],
             nonce: 'nonce',
             payment: [
@@ -98,13 +102,11 @@ final class QuotesTest extends TestCase
                         ],
                         'credential' => ['type' => 'type'],
                         'display' => ['foo' => 'bar'],
-                        'selected' => true,
                     ],
                 ],
             ],
             pickupEstimate: new \DateTimeImmutable('2019-12-27T18:11:19.117Z'),
             pickupLocation: [
-                'coordinates' => ['latitude' => -90, 'longitude' => -180],
                 'postalAddress' => [
                     'addressCountry' => 'address_country',
                     'addressLocality' => 'address_locality',
@@ -116,6 +118,7 @@ final class QuotesTest extends TestCase
                     'postalCode' => 'postal_code',
                     'streetAddress' => 'street_address',
                 ],
+                'coordinates' => ['latitude' => -90, 'longitude' => -180],
             ],
             price: 0,
             expiresAt: new \DateTimeImmutable('2019-12-27T18:11:19.117Z'),

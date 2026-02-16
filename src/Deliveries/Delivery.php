@@ -10,7 +10,7 @@ use LocalProtocol\Core\Concerns\SdkModel;
 use LocalProtocol\Core\Contracts\BaseModel;
 
 /**
- * A delivery resource.
+ * Delivery resource created when a quote is accepted.
  *
  * @phpstan-type DeliveryShape = array{
  *   id: string,
@@ -37,7 +37,7 @@ final class Delivery implements BaseModel
     public string $id;
 
     /**
-     * Creation timestamp (RFC 3339).
+     * Delivery creation timestamp (RFC 3339).
      */
     #[Required('created_at')]
     public \DateTimeInterface $createdAt;
@@ -73,7 +73,7 @@ final class Delivery implements BaseModel
     public string $quoteID;
 
     /**
-     * Reference to the delivery request.
+     * Reference to the original request.
      */
     #[Required('request_id')]
     public string $requestID;
@@ -174,7 +174,7 @@ final class Delivery implements BaseModel
     }
 
     /**
-     * Creation timestamp (RFC 3339).
+     * Delivery creation timestamp (RFC 3339).
      */
     public function withCreatedAt(\DateTimeInterface $createdAt): self
     {
@@ -240,7 +240,7 @@ final class Delivery implements BaseModel
     }
 
     /**
-     * Reference to the delivery request.
+     * Reference to the original request.
      */
     public function withRequestID(string $requestID): self
     {

@@ -57,7 +57,7 @@ final class DeliveriesTest extends TestCase
             quoteID: 'quote_id',
             requestID: 'request_id',
             eventVocabulary: 'event_vocabulary',
-            webhookURL: 'webhook_url',
+            webhookURL: 'https://example.com',
         );
 
         // @phpstan-ignore-next-line method.alreadyNarrowedType

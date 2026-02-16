@@ -9,7 +9,8 @@ use LocalProtocol\Core\Exceptions\APIException;
 use LocalProtocol\Core\Util;
 use LocalProtocol\PaymentInstruments\Payment;
 use LocalProtocol\RequestOptions;
-use LocalProtocol\Requests\Location;
+use LocalProtocol\Requests\Location\LocationWithCoordinates;
+use LocalProtocol\Requests\Location\LocationWithPostalAddress;
 use LocalProtocol\Requests\Quotes\DeliveryQuote;
 use LocalProtocol\ServiceContracts\Requests\QuotesContract;
 
@@ -44,11 +45,11 @@ final class QuotesService implements QuotesContract
      * @param string $id unique quote identifier
      * @param string $currency ISO 4217 currency code
      * @param \DateTimeInterface $dropoffEstimate estimated dropoff time (RFC 3339)
-     * @param Location|LocationShape $dropoffLocation A location specified by coordinates and/or postal address. At least one must be provided.
+     * @param LocationShape $dropoffLocation dropoff location for the delivery
      * @param string $nonce client-generated idempotency key
      * @param Payment|PaymentShape $payment payment handlers available for accepting this quote
      * @param \DateTimeInterface $pickupEstimate estimated pickup time (RFC 3339)
-     * @param Location|LocationShape $pickupLocation A location specified by coordinates and/or postal address. At least one must be provided.
+     * @param LocationShape $pickupLocation pickup location for the delivery
      * @param int $price price in minor currency units
      * @param \DateTimeInterface $expiresAt time when the quote expires (RFC 3339)
      * @param RequestOpts|null $requestOptions
@@ -60,11 +61,11 @@ final class QuotesService implements QuotesContract
         string $id,
         string $currency,
         \DateTimeInterface $dropoffEstimate,
-        Location|array $dropoffLocation,
+        LocationWithPostalAddress|array|LocationWithCoordinates $dropoffLocation,
         string $nonce,
         Payment|array $payment,
         \DateTimeInterface $pickupEstimate,
-        Location|array $pickupLocation,
+        LocationWithPostalAddress|array|LocationWithCoordinates $pickupLocation,
         int $price,
         ?\DateTimeInterface $expiresAt = null,
         RequestOptions|array|null $requestOptions = null,

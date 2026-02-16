@@ -22,6 +22,9 @@ final class QuoteRetrieveParams implements BaseModel
     use SdkModel;
     use SdkParams;
 
+    /**
+     * Delivery request identifier.
+     */
     #[Required]
     public string $requestID;
 
@@ -58,6 +61,9 @@ final class QuoteRetrieveParams implements BaseModel
         return $self;
     }
 
+    /**
+     * Delivery request identifier.
+     */
     public function withRequestID(string $requestID): self
     {
         $self = clone $this;

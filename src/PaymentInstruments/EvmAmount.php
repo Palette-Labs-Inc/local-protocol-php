@@ -7,14 +7,15 @@ namespace LocalProtocol\PaymentInstruments;
 use LocalProtocol\Core\Attributes\Required;
 use LocalProtocol\Core\Concerns\SdkModel;
 use LocalProtocol\Core\Contracts\BaseModel;
+use LocalProtocol\PaymentInstruments\EvmAmount\Currency;
 
 /**
  * Amount denominated in an EVM token. Value is in atomic token units.
  *
- * @phpstan-import-type EvmCurrencyShape from \LocalProtocol\PaymentInstruments\EvmCurrency
+ * @phpstan-import-type CurrencyShape from \LocalProtocol\PaymentInstruments\EvmAmount\Currency
  *
  * @phpstan-type EvmAmountShape = array{
- *   currency: EvmCurrency|EvmCurrencyShape, value: string
+ *   currency: Currency|CurrencyShape, value: string
  * }
  */
 final class EvmAmount implements BaseModel
@@ -23,10 +24,10 @@ final class EvmAmount implements BaseModel
     use SdkModel;
 
     /**
-     * EVM token currency descriptor.
+     * EVM token currency.
      */
     #[Required]
-    public EvmCurrency $currency;
+    public Currency $currency;
 
     /**
      * Value in atomic token units as an integer string.
@@ -58,12 +59,10 @@ final class EvmAmount implements BaseModel
      *
      * You must use named parameters to construct any parameters with a default value.
      *
-     * @param EvmCurrency|EvmCurrencyShape $currency
+     * @param Currency|CurrencyShape $currency
      */
-    public static function with(
-        EvmCurrency|array $currency,
-        string $value
-    ): self {
+    public static function with(Currency|array $currency, string $value): self
+    {
         $self = new self;
 
         $self['currency'] = $currency;
@@ -73,11 +72,11 @@ final class EvmAmount implements BaseModel
     }
 
     /**
-     * EVM token currency descriptor.
+     * EVM token currency.
      *
-     * @param EvmCurrency|EvmCurrencyShape $currency
+     * @param Currency|CurrencyShape $currency
      */
-    public function withCurrency(EvmCurrency|array $currency): self
+    public function withCurrency(Currency|array $currency): self
     {
         $self = clone $this;
         $self['currency'] = $currency;

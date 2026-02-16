@@ -39,7 +39,7 @@ final class Catalog implements BaseModel
     public string $id;
 
     /**
-     * Ordered top-level categories.
+     * Ordered top-level categories included in this catalog. Nested categories live under each category's categories array.
      *
      * @var list<mixed> $categories
      */
@@ -53,7 +53,7 @@ final class Catalog implements BaseModel
     public string $name;
 
     /**
-     * Catalog-wide availability override.
+     * Catalog availability. When present, it overrides category and item availability.
      */
     #[Optional]
     public ?Availability $availability;
@@ -65,7 +65,7 @@ final class Catalog implements BaseModel
     public ?string $description;
 
     /**
-     * Items not assigned to a category.
+     * Ordered items included in this catalog that are not assigned to a category. Consumers that require category membership should place these items into a synthetic category.
      *
      * @var list<mixed>|null $items
      */
@@ -73,7 +73,7 @@ final class Catalog implements BaseModel
     public ?array $items;
 
     /**
-     * Business-defined custom data.
+     * Business-defined custom data extending the catalog.
      *
      * @var array<string,mixed>|null $metadata
      */
@@ -144,7 +144,7 @@ final class Catalog implements BaseModel
     }
 
     /**
-     * Ordered top-level categories.
+     * Ordered top-level categories included in this catalog. Nested categories live under each category's categories array.
      *
      * @param list<mixed> $categories
      */
@@ -168,7 +168,7 @@ final class Catalog implements BaseModel
     }
 
     /**
-     * Catalog-wide availability override.
+     * Catalog availability. When present, it overrides category and item availability.
      *
      * @param Availability|AvailabilityShape $availability
      */
@@ -192,7 +192,7 @@ final class Catalog implements BaseModel
     }
 
     /**
-     * Items not assigned to a category.
+     * Ordered items included in this catalog that are not assigned to a category. Consumers that require category membership should place these items into a synthetic category.
      *
      * @param list<mixed> $items
      */
@@ -205,7 +205,7 @@ final class Catalog implements BaseModel
     }
 
     /**
-     * Business-defined custom data.
+     * Business-defined custom data extending the catalog.
      *
      * @param array<string,mixed> $metadata
      */

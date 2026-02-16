@@ -9,7 +9,7 @@ use LocalProtocol\Core\Concerns\SdkModel;
 use LocalProtocol\Core\Contracts\BaseModel;
 
 /**
- * Geographic coordinates.
+ * Coordinates.
  *
  * @phpstan-type CoordinatesShape = array{latitude: float, longitude: float}
  */

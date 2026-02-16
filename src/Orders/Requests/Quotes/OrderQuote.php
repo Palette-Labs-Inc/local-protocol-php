@@ -9,7 +9,7 @@ use LocalProtocol\Core\Concerns\SdkModel;
 use LocalProtocol\Core\Contracts\BaseModel;
 
 /**
- * An order quote.
+ * OrderQuote.
  *
  * @phpstan-type OrderQuoteShape = array{
  *   id: string,
@@ -38,7 +38,7 @@ final class OrderQuote implements BaseModel
     public \DateTimeInterface $expiresAt;
 
     /**
-     * Shared intent identifier for tracing Request -> Quote -> Order.
+     * Shared intent identifier for tracing Request → Quote → Order.
      */
     #[Required('intent_id')]
     public string $intentID;
@@ -136,7 +136,7 @@ final class OrderQuote implements BaseModel
     }
 
     /**
-     * Shared intent identifier for tracing Request -> Quote -> Order.
+     * Shared intent identifier for tracing Request → Quote → Order.
      */
     public function withIntentID(string $intentID): self
     {

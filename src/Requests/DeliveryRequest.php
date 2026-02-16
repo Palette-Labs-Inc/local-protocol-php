@@ -8,18 +8,21 @@ use LocalProtocol\Core\Attributes\Optional;
 use LocalProtocol\Core\Attributes\Required;
 use LocalProtocol\Core\Concerns\SdkModel;
 use LocalProtocol\Core\Contracts\BaseModel;
+use LocalProtocol\Requests\Location\LocationWithCoordinates;
+use LocalProtocol\Requests\Location\LocationWithPostalAddress;
 
 /**
- * A delivery request.
+ * DeliveryRequest.
  *
  * @phpstan-import-type LocationShape from \LocalProtocol\Requests\Location
+ * @phpstan-import-type LocationVariants from \LocalProtocol\Requests\Location
  *
  * @phpstan-type DeliveryRequestShape = array{
  *   id: string,
- *   dropoffLocation: Location|LocationShape,
+ *   dropoffLocation: LocationShape,
  *   dropoffTime: \DateTimeInterface,
  *   nonce: string,
- *   pickupLocation: Location|LocationShape,
+ *   pickupLocation: LocationShape,
  *   pickupTime: \DateTimeInterface,
  *   dropoffInstructions?: string|null,
  *   pickupInstructions?: string|null,
@@ -37,10 +40,12 @@ final class DeliveryRequest implements BaseModel
     public string $id;
 
     /**
-     * A location specified by coordinates and/or postal address. At least one must be provided.
+     * Dropoff location for the delivery.
+     *
+     * @var LocationVariants $dropoffLocation
      */
     #[Required('dropoff_location')]
-    public Location $dropoffLocation;
+    public LocationWithPostalAddress|LocationWithCoordinates $dropoffLocation;
 
     /**
      * Requested dropoff time (RFC 3339).
@@ -55,10 +60,12 @@ final class DeliveryRequest implements BaseModel
     public string $nonce;
 
     /**
-     * A location specified by coordinates and/or postal address. At least one must be provided.
+     * Pickup location for the delivery.
+     *
+     * @var LocationVariants $pickupLocation
      */
     #[Required('pickup_location')]
-    public Location $pickupLocation;
+    public LocationWithPostalAddress|LocationWithCoordinates $pickupLocation;
 
     /**
      * Requested pickup time (RFC 3339).
@@ -115,15 +122,15 @@ final class DeliveryRequest implements BaseModel
      *
      * You must use named parameters to construct any parameters with a default value.
      *
-     * @param Location|LocationShape $dropoffLocation
-     * @param Location|LocationShape $pickupLocation
+     * @param LocationShape $dropoffLocation
+     * @param LocationShape $pickupLocation
      */
     public static function with(
         string $id,
-        Location|array $dropoffLocation,
+        LocationWithPostalAddress|array|LocationWithCoordinates $dropoffLocation,
         \DateTimeInterface $dropoffTime,
         string $nonce,
-        Location|array $pickupLocation,
+        LocationWithPostalAddress|array|LocationWithCoordinates $pickupLocation,
         \DateTimeInterface $pickupTime,
         ?string $dropoffInstructions = null,
         ?string $pickupInstructions = null,
@@ -155,12 +162,13 @@ final class DeliveryRequest implements BaseModel
     }
 
     /**
-     * A location specified by coordinates and/or postal address. At least one must be provided.
+     * Dropoff location for the delivery.
      *
-     * @param Location|LocationShape $dropoffLocation
+     * @param LocationShape $dropoffLocation
      */
-    public function withDropoffLocation(Location|array $dropoffLocation): self
-    {
+    public function withDropoffLocation(
+        LocationWithPostalAddress|array|LocationWithCoordinates $dropoffLocation
+    ): self {
         $self = clone $this;
         $self['dropoffLocation'] = $dropoffLocation;
 
@@ -190,12 +198,13 @@ final class DeliveryRequest implements BaseModel
     }
 
     /**
-     * A location specified by coordinates and/or postal address. At least one must be provided.
+     * Pickup location for the delivery.
      *
-     * @param Location|LocationShape $pickupLocation
+     * @param LocationShape $pickupLocation
      */
-    public function withPickupLocation(Location|array $pickupLocation): self
-    {
+    public function withPickupLocation(
+        LocationWithPostalAddress|array|LocationWithCoordinates $pickupLocation
+    ): self {
         $self = clone $this;
         $self['pickupLocation'] = $pickupLocation;
 

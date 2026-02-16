@@ -9,6 +9,8 @@ use LocalProtocol\Core\Concerns\SdkModel;
 use LocalProtocol\Core\Contracts\BaseModel;
 
 /**
+ * Postal Address.
+ *
  * @phpstan-type PostalAddressShape = array{
  *   addressCountry?: string|null,
  *   addressLocality?: string|null,
@@ -27,49 +29,49 @@ final class PostalAddress implements BaseModel
     use SdkModel;
 
     /**
-     * Country (ISO 3166-1 alpha-2 recommended).
+     * The country. Recommended to be in 2-letter ISO 3166-1 alpha-2 format, for example "US". For backward compatibility, a 3-letter ISO 3166-1 alpha-3 country code such as "SGP" or a full country name such as "Singapore" can also be used.
      */
     #[Optional('address_country')]
     public ?string $addressCountry;
 
     /**
-     * City or locality.
+     * The locality in which the street address is, and which is in the region. For example, Mountain View.
      */
     #[Optional('address_locality')]
     public ?string $addressLocality;
 
     /**
-     * State, province, or region.
+     * The region in which the locality is, and which is in the country. Required for applicable countries (i.e. state in US, province in CA). For example, California or another appropriate first-level Administrative division.
      */
     #[Optional('address_region')]
     public ?string $addressRegion;
 
     /**
-     * Address extension (apartment number, C/O, etc.).
+     * An address extension such as an apartment number, C/O or alternative name.
      */
     #[Optional('extended_address')]
     public ?string $extendedAddress;
 
     /**
-     * Contact first name.
+     * Optional. First name of the contact associated with the address.
      */
     #[Optional('first_name')]
     public ?string $firstName;
 
     /**
-     * Contact last name.
+     * Optional. Last name of the contact associated with the address.
      */
     #[Optional('last_name')]
     public ?string $lastName;
 
     /**
-     * Contact phone number.
+     * Optional. Phone number of the contact associated with the address.
      */
     #[Optional('phone_number')]
     public ?string $phoneNumber;
 
     /**
-     * Postal code.
+     * The postal code. For example, 94043.
      */
     #[Optional('postal_code')]
     public ?string $postalCode;
@@ -117,7 +119,7 @@ final class PostalAddress implements BaseModel
     }
 
     /**
-     * Country (ISO 3166-1 alpha-2 recommended).
+     * The country. Recommended to be in 2-letter ISO 3166-1 alpha-2 format, for example "US". For backward compatibility, a 3-letter ISO 3166-1 alpha-3 country code such as "SGP" or a full country name such as "Singapore" can also be used.
      */
     public function withAddressCountry(string $addressCountry): self
     {
@@ -128,7 +130,7 @@ final class PostalAddress implements BaseModel
     }
 
     /**
-     * City or locality.
+     * The locality in which the street address is, and which is in the region. For example, Mountain View.
      */
     public function withAddressLocality(string $addressLocality): self
     {
@@ -139,7 +141,7 @@ final class PostalAddress implements BaseModel
     }
 
     /**
-     * State, province, or region.
+     * The region in which the locality is, and which is in the country. Required for applicable countries (i.e. state in US, province in CA). For example, California or another appropriate first-level Administrative division.
      */
     public function withAddressRegion(string $addressRegion): self
     {
@@ -150,7 +152,7 @@ final class PostalAddress implements BaseModel
     }
 
     /**
-     * Address extension (apartment number, C/O, etc.).
+     * An address extension such as an apartment number, C/O or alternative name.
      */
     public function withExtendedAddress(string $extendedAddress): self
     {
@@ -161,7 +163,7 @@ final class PostalAddress implements BaseModel
     }
 
     /**
-     * Contact first name.
+     * Optional. First name of the contact associated with the address.
      */
     public function withFirstName(string $firstName): self
     {
@@ -172,7 +174,7 @@ final class PostalAddress implements BaseModel
     }
 
     /**
-     * Contact last name.
+     * Optional. Last name of the contact associated with the address.
      */
     public function withLastName(string $lastName): self
     {
@@ -183,7 +185,7 @@ final class PostalAddress implements BaseModel
     }
 
     /**
-     * Contact phone number.
+     * Optional. Phone number of the contact associated with the address.
      */
     public function withPhoneNumber(string $phoneNumber): self
     {
@@ -194,7 +196,7 @@ final class PostalAddress implements BaseModel
     }
 
     /**
-     * Postal code.
+     * The postal code. For example, 94043.
      */
     public function withPostalCode(string $postalCode): self
     {

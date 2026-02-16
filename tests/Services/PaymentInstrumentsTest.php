@@ -67,6 +67,7 @@ final class PaymentInstrumentsTest extends TestCase
             preapprovalExpiresAt: new \DateTimeImmutable('2019-12-27T18:11:19.117Z'),
             receiver: '0x2c02efDd09B3BA1AEaDd3dCAa7aC7A37C1CBDA8A',
             refundExpiresAt: new \DateTimeImmutable('2019-12-27T18:11:19.117Z'),
+            type: 'evm_auth_capture_escrow',
         );
 
         // @phpstan-ignore-next-line method.alreadyNarrowedType

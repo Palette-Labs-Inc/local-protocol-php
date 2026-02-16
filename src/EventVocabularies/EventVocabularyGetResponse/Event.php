@@ -9,8 +9,6 @@ use LocalProtocol\Core\Concerns\SdkModel;
 use LocalProtocol\Core\Contracts\BaseModel;
 
 /**
- * A single delivery event definition.
- *
  * @phpstan-type EventShape = array{description: string}
  */
 final class Event implements BaseModel

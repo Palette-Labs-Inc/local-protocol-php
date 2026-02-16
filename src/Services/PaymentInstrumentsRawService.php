@@ -7,23 +7,26 @@ namespace LocalProtocol\Services;
 use LocalProtocol\Client;
 use LocalProtocol\Core\Contracts\BaseResponse;
 use LocalProtocol\Core\Exceptions\APIException;
-use LocalProtocol\PaymentInstruments\EvmAmount;
 use LocalProtocol\PaymentInstruments\EvmAuthCaptureEscrowInstrument;
 use LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams;
+use LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\Amount;
+use LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\BillingAddress;
 use LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\Credential;
+use LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\MaxAmount;
 use LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\Token;
+use LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\Type;
 use LocalProtocol\RequestOptions;
-use LocalProtocol\Requests\PostalAddress;
 use LocalProtocol\ServiceContracts\PaymentInstrumentsRawContract;
 
 /**
  * Register payment instruments and related payment models.
  *
  * @phpstan-import-type TokenShape from \LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\Token
- * @phpstan-import-type PostalAddressShape from \LocalProtocol\Requests\PostalAddress
+ * @phpstan-import-type AmountShape from \LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\Amount
+ * @phpstan-import-type MaxAmountShape from \LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\MaxAmount
+ * @phpstan-import-type BillingAddressShape from \LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\BillingAddress
  * @phpstan-import-type CredentialShape from \LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\Credential
  * @phpstan-import-type RequestOpts from \LocalProtocol\RequestOptions
- * @phpstan-import-type EvmAmountShape from \LocalProtocol\PaymentInstruments\EvmAmount
  */
 final class PaymentInstrumentsRawService implements PaymentInstrumentsRawContract
 {
@@ -41,12 +44,12 @@ final class PaymentInstrumentsRawService implements PaymentInstrumentsRawContrac
      * @param array{
      *   id: string,
      *   token: Token|TokenShape,
-     *   amount: EvmAmount|EvmAmountShape,
+     *   amount: Amount|AmountShape,
      *   authorizationExpiresAt: \DateTimeInterface,
      *   chainID: int,
      *   contract: string,
      *   handlerID: string,
-     *   maxAmount: EvmAmount|EvmAmountShape,
+     *   maxAmount: MaxAmount|MaxAmountShape,
      *   nonce: string,
      *   operator: string,
      *   payer: string,
@@ -54,8 +57,8 @@ final class PaymentInstrumentsRawService implements PaymentInstrumentsRawContrac
      *   preapprovalExpiresAt: \DateTimeInterface,
      *   receiver: string,
      *   refundExpiresAt: \DateTimeInterface,
-     *   type?: 'evm_auth_capture_escrow',
-     *   billingAddress?: PostalAddress|PostalAddressShape,
+     *   type: Type|value-of<Type>,
+     *   billingAddress?: BillingAddress|BillingAddressShape,
      *   credential?: Credential|CredentialShape,
      *   display?: array<string,mixed>,
      * }|PaymentInstrumentRegisterParams $params

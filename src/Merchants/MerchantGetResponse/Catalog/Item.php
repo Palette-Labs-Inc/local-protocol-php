@@ -61,7 +61,7 @@ final class Item implements BaseModel
     public Amount $price;
 
     /**
-     * Item availability.
+     * Item availability. Ignored when the catalog or category defines availability.
      */
     #[Optional]
     public ?Availability $availability;
@@ -75,7 +75,7 @@ final class Item implements BaseModel
     public ?array $media;
 
     /**
-     * Business-defined custom data.
+     * Business-defined custom data extending the item.
      *
      * @var array<string,mixed>|null $metadata
      */
@@ -192,7 +192,7 @@ final class Item implements BaseModel
     }
 
     /**
-     * Item availability.
+     * Item availability. Ignored when the catalog or category defines availability.
      *
      * @param Availability|AvailabilityShape $availability
      */
@@ -218,7 +218,7 @@ final class Item implements BaseModel
     }
 
     /**
-     * Business-defined custom data.
+     * Business-defined custom data extending the item.
      *
      * @param array<string,mixed> $metadata
      */
