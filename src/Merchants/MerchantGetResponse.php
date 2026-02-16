@@ -60,7 +60,7 @@ final class MerchantGetResponse implements BaseModel
     public ?\DateTimeInterface $lastUpdated;
 
     /**
-     * Business-defined custom data.
+     * Business-defined custom data extending the merchant.
      *
      * @var array<string,mixed>|null $metadata
      */
@@ -177,7 +177,7 @@ final class MerchantGetResponse implements BaseModel
     }
 
     /**
-     * Business-defined custom data.
+     * Business-defined custom data extending the merchant.
      *
      * @param array<string,mixed> $metadata
      */

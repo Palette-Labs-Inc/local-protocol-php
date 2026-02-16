@@ -7,19 +7,22 @@ namespace LocalProtocol\PaymentInstruments;
 use LocalProtocol\Core\Attributes\Required;
 use LocalProtocol\Core\Concerns\SdkModel;
 use LocalProtocol\Core\Contracts\BaseModel;
+use LocalProtocol\PaymentInstruments\EvmAuthCaptureEscrowInstrumentDetails\Amount;
+use LocalProtocol\PaymentInstruments\EvmAuthCaptureEscrowInstrumentDetails\MaxAmount;
 use LocalProtocol\PaymentInstruments\EvmAuthCaptureEscrowInstrumentDetails\Token;
 
 /**
  * @phpstan-import-type TokenShape from \LocalProtocol\PaymentInstruments\EvmAuthCaptureEscrowInstrumentDetails\Token
- * @phpstan-import-type EvmAmountShape from \LocalProtocol\PaymentInstruments\EvmAmount
+ * @phpstan-import-type AmountShape from \LocalProtocol\PaymentInstruments\EvmAuthCaptureEscrowInstrumentDetails\Amount
+ * @phpstan-import-type MaxAmountShape from \LocalProtocol\PaymentInstruments\EvmAuthCaptureEscrowInstrumentDetails\MaxAmount
  *
  * @phpstan-type EvmAuthCaptureEscrowInstrumentDetailsShape = array{
  *   token: Token|TokenShape,
- *   amount: EvmAmount|EvmAmountShape,
+ *   amount: \LocalProtocol\PaymentInstruments\EvmAuthCaptureEscrowInstrumentDetails\Amount|AmountShape,
  *   authorizationExpiresAt: \DateTimeInterface,
  *   chainID: int,
  *   contract: string,
- *   maxAmount: EvmAmount|EvmAmountShape,
+ *   maxAmount: MaxAmount|MaxAmountShape,
  *   nonce: string,
  *   operator: string,
  *   payer: string,
@@ -35,7 +38,7 @@ final class EvmAuthCaptureEscrowInstrumentDetails implements BaseModel
     use SdkModel;
 
     /**
-     * EVM token identifier used for auth/capture settlement.
+     * EVM token.
      */
     #[Required]
     public Token $token;
@@ -44,22 +47,22 @@ final class EvmAuthCaptureEscrowInstrumentDetails implements BaseModel
      * Amount in atomic units. Currency chain_id MUST match the instrument chain_id; currency address and decimals MUST match token address and decimals.
      */
     #[Required]
-    public EvmAmount $amount;
+    public Amount $amount;
 
     /**
-     * Authorization expiration (RFC 3339).
+     * Authorization expiration timestamp (RFC 3339).
      */
     #[Required('authorization_expires_at')]
     public \DateTimeInterface $authorizationExpiresAt;
 
     /**
-     * EVM chain id.
+     * EVM chain id for the escrow contract.
      */
     #[Required('chain_id')]
     public int $chainID;
 
     /**
-     * Escrow contract address.
+     * Escrow contract address on the target chain.
      */
     #[Required]
     public string $contract;
@@ -68,46 +71,46 @@ final class EvmAuthCaptureEscrowInstrumentDetails implements BaseModel
      * Maximum amount that can be authorized (atomic units). Currency chain_id MUST match the instrument chain_id; currency address and decimals MUST match token address and decimals.
      */
     #[Required('max_amount')]
-    public EvmAmount $maxAmount;
+    public MaxAmount $maxAmount;
 
     /**
-     * Unique nonce for payment info hash computation.
+     * Unique nonce used to compute the payment info hash.
      */
     #[Required]
     public string $nonce;
 
     /**
-     * Operator address.
+     * Operator address used to compute the payment info hash.
      */
     #[Required]
     public string $operator;
 
     /**
-     * Payer address.
+     * Payer address used to compute the payment info hash.
      */
     #[Required]
     public string $payer;
 
     /**
-     * Hash identifying the on-chain payment authorization.
+     * Hash that identifies the on-chain payment authorization.
      */
     #[Required('payment_info_hash')]
     public string $paymentInfoHash;
 
     /**
-     * Pre-approval expiration (RFC 3339).
+     * Pre-approval expiration timestamp (RFC 3339).
      */
     #[Required('preapproval_expires_at')]
     public \DateTimeInterface $preapprovalExpiresAt;
 
     /**
-     * Receiver address for captures.
+     * Receiver address used for captures.
      */
     #[Required]
     public string $receiver;
 
     /**
-     * Refund expiration (RFC 3339).
+     * Refund expiration timestamp (RFC 3339).
      */
     #[Required('refund_expires_at')]
     public \DateTimeInterface $refundExpiresAt;
@@ -164,16 +167,16 @@ final class EvmAuthCaptureEscrowInstrumentDetails implements BaseModel
      * You must use named parameters to construct any parameters with a default value.
      *
      * @param Token|TokenShape $token
-     * @param EvmAmount|EvmAmountShape $amount
-     * @param EvmAmount|EvmAmountShape $maxAmount
+     * @param Amount|AmountShape $amount
+     * @param MaxAmount|MaxAmountShape $maxAmount
      */
     public static function with(
         Token|array $token,
-        EvmAmount|array $amount,
+        Amount|array $amount,
         \DateTimeInterface $authorizationExpiresAt,
         int $chainID,
         string $contract,
-        EvmAmount|array $maxAmount,
+        MaxAmount|array $maxAmount,
         string $nonce,
         string $operator,
         string $payer,
@@ -202,7 +205,7 @@ final class EvmAuthCaptureEscrowInstrumentDetails implements BaseModel
     }
 
     /**
-     * EVM token identifier used for auth/capture settlement.
+     * EVM token.
      *
      * @param Token|TokenShape $token
      */
@@ -217,10 +220,11 @@ final class EvmAuthCaptureEscrowInstrumentDetails implements BaseModel
     /**
      * Amount in atomic units. Currency chain_id MUST match the instrument chain_id; currency address and decimals MUST match token address and decimals.
      *
-     * @param EvmAmount|EvmAmountShape $amount
+     * @param Amount|AmountShape $amount
      */
-    public function withAmount(EvmAmount|array $amount): self
-    {
+    public function withAmount(
+        Amount|array $amount,
+    ): self {
         $self = clone $this;
         $self['amount'] = $amount;
 
@@ -228,7 +232,7 @@ final class EvmAuthCaptureEscrowInstrumentDetails implements BaseModel
     }
 
     /**
-     * Authorization expiration (RFC 3339).
+     * Authorization expiration timestamp (RFC 3339).
      */
     public function withAuthorizationExpiresAt(
         \DateTimeInterface $authorizationExpiresAt
@@ -240,7 +244,7 @@ final class EvmAuthCaptureEscrowInstrumentDetails implements BaseModel
     }
 
     /**
-     * EVM chain id.
+     * EVM chain id for the escrow contract.
      */
     public function withChainID(int $chainID): self
     {
@@ -251,7 +255,7 @@ final class EvmAuthCaptureEscrowInstrumentDetails implements BaseModel
     }
 
     /**
-     * Escrow contract address.
+     * Escrow contract address on the target chain.
      */
     public function withContract(string $contract): self
     {
@@ -264,9 +268,9 @@ final class EvmAuthCaptureEscrowInstrumentDetails implements BaseModel
     /**
      * Maximum amount that can be authorized (atomic units). Currency chain_id MUST match the instrument chain_id; currency address and decimals MUST match token address and decimals.
      *
-     * @param EvmAmount|EvmAmountShape $maxAmount
+     * @param MaxAmount|MaxAmountShape $maxAmount
      */
-    public function withMaxAmount(EvmAmount|array $maxAmount): self
+    public function withMaxAmount(MaxAmount|array $maxAmount): self
     {
         $self = clone $this;
         $self['maxAmount'] = $maxAmount;
@@ -275,7 +279,7 @@ final class EvmAuthCaptureEscrowInstrumentDetails implements BaseModel
     }
 
     /**
-     * Unique nonce for payment info hash computation.
+     * Unique nonce used to compute the payment info hash.
      */
     public function withNonce(string $nonce): self
     {
@@ -286,7 +290,7 @@ final class EvmAuthCaptureEscrowInstrumentDetails implements BaseModel
     }
 
     /**
-     * Operator address.
+     * Operator address used to compute the payment info hash.
      */
     public function withOperator(string $operator): self
     {
@@ -297,7 +301,7 @@ final class EvmAuthCaptureEscrowInstrumentDetails implements BaseModel
     }
 
     /**
-     * Payer address.
+     * Payer address used to compute the payment info hash.
      */
     public function withPayer(string $payer): self
     {
@@ -308,7 +312,7 @@ final class EvmAuthCaptureEscrowInstrumentDetails implements BaseModel
     }
 
     /**
-     * Hash identifying the on-chain payment authorization.
+     * Hash that identifies the on-chain payment authorization.
      */
     public function withPaymentInfoHash(string $paymentInfoHash): self
     {
@@ -319,7 +323,7 @@ final class EvmAuthCaptureEscrowInstrumentDetails implements BaseModel
     }
 
     /**
-     * Pre-approval expiration (RFC 3339).
+     * Pre-approval expiration timestamp (RFC 3339).
      */
     public function withPreapprovalExpiresAt(
         \DateTimeInterface $preapprovalExpiresAt
@@ -331,7 +335,7 @@ final class EvmAuthCaptureEscrowInstrumentDetails implements BaseModel
     }
 
     /**
-     * Receiver address for captures.
+     * Receiver address used for captures.
      */
     public function withReceiver(string $receiver): self
     {
@@ -342,7 +346,7 @@ final class EvmAuthCaptureEscrowInstrumentDetails implements BaseModel
     }
 
     /**
-     * Refund expiration (RFC 3339).
+     * Refund expiration timestamp (RFC 3339).
      */
     public function withRefundExpiresAt(
         \DateTimeInterface $refundExpiresAt

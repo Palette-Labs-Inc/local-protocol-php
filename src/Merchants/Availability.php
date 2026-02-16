@@ -33,7 +33,7 @@ final class Availability implements BaseModel
     public array $intervals;
 
     /**
-     * IANA timezone. Defaults to merchant timezone when omitted.
+     * IANA timezone for the intervals. Defaults to the merchant timezone when omitted.
      */
     #[Optional]
     public ?string $timezone;
@@ -89,7 +89,7 @@ final class Availability implements BaseModel
     }
 
     /**
-     * IANA timezone. Defaults to merchant timezone when omitted.
+     * IANA timezone for the intervals. Defaults to the merchant timezone when omitted.
      */
     public function withTimezone(string $timezone): self
     {

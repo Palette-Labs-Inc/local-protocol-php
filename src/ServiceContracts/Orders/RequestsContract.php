@@ -19,7 +19,7 @@ interface RequestsContract
      * @api
      *
      * @param string $id unique cart identifier
-     * @param string $intentID shared intent identifier for tracing Request -> Quote -> Order
+     * @param string $intentID shared intent identifier for tracing Request → Quote → Order
      * @param list<Item|ItemShape> $items items in the cart
      * @param string $nonce client-generated idempotency key
      * @param RequestOpts|null $requestOptions

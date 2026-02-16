@@ -10,8 +10,6 @@ use LocalProtocol\Core\Contracts\BaseModel;
 use LocalProtocol\Core\Conversion\MapOf;
 
 /**
- * Service discovery metadata.
- *
  * @phpstan-type WellKnownGetResponseShape = array{
  *   capabilities: array<string,array<string,mixed>>,
  *   endpoints: array<string,string>,

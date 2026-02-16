@@ -9,7 +9,7 @@ use LocalProtocol\Core\Concerns\SdkModel;
 use LocalProtocol\Core\Contracts\BaseModel;
 
 /**
- * An order.
+ * Order.
  *
  * @phpstan-type OrderShape = array{
  *   id: string, intentID: string, nonce: string, paymentInstrumentID: string
@@ -27,7 +27,7 @@ final class Order implements BaseModel
     public string $id;
 
     /**
-     * Shared intent identifier for tracing Request -> Quote -> Order.
+     * Shared intent identifier for tracing Request → Quote → Order.
      */
     #[Required('intent_id')]
     public string $intentID;
@@ -39,7 +39,7 @@ final class Order implements BaseModel
     public string $nonce;
 
     /**
-     * Reference to the payment instrument used.
+     * Reference to the payment instrument used to create this order.
      */
     #[Required('payment_instrument_id')]
     public string $paymentInstrumentID;
@@ -100,7 +100,7 @@ final class Order implements BaseModel
     }
 
     /**
-     * Shared intent identifier for tracing Request -> Quote -> Order.
+     * Shared intent identifier for tracing Request → Quote → Order.
      */
     public function withIntentID(string $intentID): self
     {
@@ -122,7 +122,7 @@ final class Order implements BaseModel
     }
 
     /**
-     * Reference to the payment instrument used.
+     * Reference to the payment instrument used to create this order.
      */
     public function withPaymentInstrumentID(string $paymentInstrumentID): self
     {

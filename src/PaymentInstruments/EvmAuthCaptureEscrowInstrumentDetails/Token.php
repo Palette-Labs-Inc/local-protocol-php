@@ -10,7 +10,7 @@ use LocalProtocol\Core\Concerns\SdkModel;
 use LocalProtocol\Core\Contracts\BaseModel;
 
 /**
- * EVM token identifier used for auth/capture settlement.
+ * EVM token.
  *
  * @phpstan-type TokenShape = array{
  *   decimals: int, symbol: string, address?: string|null
@@ -34,7 +34,7 @@ final class Token implements BaseModel
     public string $symbol;
 
     /**
-     * ERC-20 contract address. Omit for native gas tokens.
+     * ERC-20 contract address. Omit for native gas tokens (e.g., ETH, MATIC).
      */
     #[Optional]
     public ?string $address;
@@ -101,7 +101,7 @@ final class Token implements BaseModel
     }
 
     /**
-     * ERC-20 contract address. Omit for native gas tokens.
+     * ERC-20 contract address. Omit for native gas tokens (e.g., ETH, MATIC).
      */
     public function withAddress(string $address): self
     {

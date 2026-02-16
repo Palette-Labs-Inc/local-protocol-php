@@ -10,7 +10,8 @@ use LocalProtocol\Core\Concerns\SdkModel;
 use LocalProtocol\Core\Concerns\SdkParams;
 use LocalProtocol\Core\Contracts\BaseModel;
 use LocalProtocol\PaymentInstruments\Payment;
-use LocalProtocol\Requests\Location;
+use LocalProtocol\Requests\Location\LocationWithCoordinates;
+use LocalProtocol\Requests\Location\LocationWithPostalAddress;
 
 /**
  * Submit a quote for a delivery request. The `nonce` field provides idempotency.
@@ -19,16 +20,17 @@ use LocalProtocol\Requests\Location;
  *
  * @phpstan-import-type LocationShape from \LocalProtocol\Requests\Location
  * @phpstan-import-type PaymentShape from \LocalProtocol\PaymentInstruments\Payment
+ * @phpstan-import-type LocationVariants from \LocalProtocol\Requests\Location
  *
  * @phpstan-type QuoteCreateParamsShape = array{
  *   id: string,
  *   currency: string,
  *   dropoffEstimate: \DateTimeInterface,
- *   dropoffLocation: Location|LocationShape,
+ *   dropoffLocation: LocationShape,
  *   nonce: string,
  *   payment: Payment|PaymentShape,
  *   pickupEstimate: \DateTimeInterface,
- *   pickupLocation: Location|LocationShape,
+ *   pickupLocation: LocationShape,
  *   price: int,
  *   expiresAt?: \DateTimeInterface|null,
  * }
@@ -58,10 +60,12 @@ final class QuoteCreateParams implements BaseModel
     public \DateTimeInterface $dropoffEstimate;
 
     /**
-     * A location specified by coordinates and/or postal address. At least one must be provided.
+     * Dropoff location for the delivery.
+     *
+     * @var LocationVariants $dropoffLocation
      */
     #[Required('dropoff_location')]
-    public Location $dropoffLocation;
+    public LocationWithPostalAddress|LocationWithCoordinates $dropoffLocation;
 
     /**
      * Client-generated idempotency key.
@@ -82,10 +86,12 @@ final class QuoteCreateParams implements BaseModel
     public \DateTimeInterface $pickupEstimate;
 
     /**
-     * A location specified by coordinates and/or postal address. At least one must be provided.
+     * Pickup location for the delivery.
+     *
+     * @var LocationVariants $pickupLocation
      */
     #[Required('pickup_location')]
-    public Location $pickupLocation;
+    public LocationWithPostalAddress|LocationWithCoordinates $pickupLocation;
 
     /**
      * Price in minor currency units.
@@ -142,19 +148,19 @@ final class QuoteCreateParams implements BaseModel
      *
      * You must use named parameters to construct any parameters with a default value.
      *
-     * @param Location|LocationShape $dropoffLocation
+     * @param LocationShape $dropoffLocation
      * @param Payment|PaymentShape $payment
-     * @param Location|LocationShape $pickupLocation
+     * @param LocationShape $pickupLocation
      */
     public static function with(
         string $id,
         string $currency,
         \DateTimeInterface $dropoffEstimate,
-        Location|array $dropoffLocation,
+        LocationWithPostalAddress|array|LocationWithCoordinates $dropoffLocation,
         string $nonce,
         Payment|array $payment,
         \DateTimeInterface $pickupEstimate,
-        Location|array $pickupLocation,
+        LocationWithPostalAddress|array|LocationWithCoordinates $pickupLocation,
         int $price,
         ?\DateTimeInterface $expiresAt = null,
     ): self {
@@ -210,12 +216,13 @@ final class QuoteCreateParams implements BaseModel
     }
 
     /**
-     * A location specified by coordinates and/or postal address. At least one must be provided.
+     * Dropoff location for the delivery.
      *
-     * @param Location|LocationShape $dropoffLocation
+     * @param LocationShape $dropoffLocation
      */
-    public function withDropoffLocation(Location|array $dropoffLocation): self
-    {
+    public function withDropoffLocation(
+        LocationWithPostalAddress|array|LocationWithCoordinates $dropoffLocation
+    ): self {
         $self = clone $this;
         $self['dropoffLocation'] = $dropoffLocation;
 
@@ -258,12 +265,13 @@ final class QuoteCreateParams implements BaseModel
     }
 
     /**
-     * A location specified by coordinates and/or postal address. At least one must be provided.
+     * Pickup location for the delivery.
      *
-     * @param Location|LocationShape $pickupLocation
+     * @param LocationShape $pickupLocation
      */
-    public function withPickupLocation(Location|array $pickupLocation): self
-    {
+    public function withPickupLocation(
+        LocationWithPostalAddress|array|LocationWithCoordinates $pickupLocation
+    ): self {
         $self = clone $this;
         $self['pickupLocation'] = $pickupLocation;
 

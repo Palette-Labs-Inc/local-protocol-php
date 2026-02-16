@@ -16,11 +16,11 @@ use LocalProtocol\EventVocabularies\EventVocabularyGetResponse\Event;
  * @phpstan-import-type EventShape from \LocalProtocol\EventVocabularies\EventVocabularyGetResponse\Event
  *
  * @phpstan-type EventVocabularyGetResponseShape = array{
+ *   description: string,
  *   events: array<string,Event|EventShape>,
  *   name: string,
  *   title: string,
  *   version: string,
- *   description?: string|null,
  *   extends?: list<string>|null,
  *   spec?: string|null,
  * }
@@ -31,7 +31,13 @@ final class EventVocabularyGetResponse implements BaseModel
     use SdkModel;
 
     /**
-     * Map of event IDs to event definitions.
+     * Human-readable description of the standard.
+     */
+    #[Required]
+    public string $description;
+
+    /**
+     * Map of all event IDs supported by this standard, including inherited events.
      *
      * @var array<string,Event> $events
      */
@@ -39,13 +45,13 @@ final class EventVocabularyGetResponse implements BaseModel
     public array $events;
 
     /**
-     * Standard identifier in reverse-domain notation.
+     * Standard identifier in reverse-domain notation (e.g., xyz.localprotocol.delivery.courier).
      */
     #[Required]
     public string $name;
 
     /**
-     * Human-readable title.
+     * Human-readable title for the standard.
      */
     #[Required]
     public string $title;
@@ -57,13 +63,7 @@ final class EventVocabularyGetResponse implements BaseModel
     public string $version;
 
     /**
-     * Human-readable description.
-     */
-    #[Optional]
-    public ?string $description;
-
-    /**
-     * Parent standard this extends (optional, max one).
+     * Parent standard this standard extends (optional). Only one parent is allowed; the reference must include a version date. Used for lineage and discovery.
      *
      * @var list<string>|null $extends
      */
@@ -71,7 +71,7 @@ final class EventVocabularyGetResponse implements BaseModel
     public ?array $extends;
 
     /**
-     * URL to specification document.
+     * URL to human-readable specification document.
      */
     #[Optional]
     public ?string $spec;
@@ -82,7 +82,7 @@ final class EventVocabularyGetResponse implements BaseModel
      * To enforce required parameters use
      * ```
      * EventVocabularyGetResponse::with(
-     *   events: ..., name: ..., title: ..., version: ...
+     *   description: ..., events: ..., name: ..., title: ..., version: ...
      * )
      * ```
      *
@@ -90,6 +90,7 @@ final class EventVocabularyGetResponse implements BaseModel
      *
      * ```
      * (new EventVocabularyGetResponse)
+     *   ->withDescription(...)
      *   ->withEvents(...)
      *   ->withName(...)
      *   ->withTitle(...)
@@ -110,22 +111,22 @@ final class EventVocabularyGetResponse implements BaseModel
      * @param list<string>|null $extends
      */
     public static function with(
+        string $description,
         array $events,
         string $name,
         string $title,
         string $version,
-        ?string $description = null,
         ?array $extends = null,
         ?string $spec = null,
     ): self {
         $self = new self;
 
+        $self['description'] = $description;
         $self['events'] = $events;
         $self['name'] = $name;
         $self['title'] = $title;
         $self['version'] = $version;
 
-        null !== $description && $self['description'] = $description;
         null !== $extends && $self['extends'] = $extends;
         null !== $spec && $self['spec'] = $spec;
 
@@ -133,7 +134,18 @@ final class EventVocabularyGetResponse implements BaseModel
     }
 
     /**
-     * Map of event IDs to event definitions.
+     * Human-readable description of the standard.
+     */
+    public function withDescription(string $description): self
+    {
+        $self = clone $this;
+        $self['description'] = $description;
+
+        return $self;
+    }
+
+    /**
+     * Map of all event IDs supported by this standard, including inherited events.
      *
      * @param array<string,Event|EventShape> $events
      */
@@ -146,7 +158,7 @@ final class EventVocabularyGetResponse implements BaseModel
     }
 
     /**
-     * Standard identifier in reverse-domain notation.
+     * Standard identifier in reverse-domain notation (e.g., xyz.localprotocol.delivery.courier).
      */
     public function withName(string $name): self
     {
@@ -157,7 +169,7 @@ final class EventVocabularyGetResponse implements BaseModel
     }
 
     /**
-     * Human-readable title.
+     * Human-readable title for the standard.
      */
     public function withTitle(string $title): self
     {
@@ -179,18 +191,7 @@ final class EventVocabularyGetResponse implements BaseModel
     }
 
     /**
-     * Human-readable description.
-     */
-    public function withDescription(string $description): self
-    {
-        $self = clone $this;
-        $self['description'] = $description;
-
-        return $self;
-    }
-
-    /**
-     * Parent standard this extends (optional, max one).
+     * Parent standard this standard extends (optional). Only one parent is allowed; the reference must include a version date. Used for lineage and discovery.
      *
      * @param list<string> $extends
      */
@@ -203,7 +204,7 @@ final class EventVocabularyGetResponse implements BaseModel
     }
 
     /**
-     * URL to specification document.
+     * URL to human-readable specification document.
      */
     public function withSpec(string $spec): self
     {

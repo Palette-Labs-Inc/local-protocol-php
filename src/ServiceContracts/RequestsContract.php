@@ -7,7 +7,8 @@ namespace LocalProtocol\ServiceContracts;
 use LocalProtocol\Core\Exceptions\APIException;
 use LocalProtocol\RequestOptions;
 use LocalProtocol\Requests\DeliveryRequest;
-use LocalProtocol\Requests\Location;
+use LocalProtocol\Requests\Location\LocationWithCoordinates;
+use LocalProtocol\Requests\Location\LocationWithPostalAddress;
 
 /**
  * @phpstan-import-type LocationShape from \LocalProtocol\Requests\Location
@@ -19,10 +20,10 @@ interface RequestsContract
      * @api
      *
      * @param string $id unique request identifier
-     * @param Location|LocationShape $dropoffLocation A location specified by coordinates and/or postal address. At least one must be provided.
+     * @param LocationShape $dropoffLocation dropoff location for the delivery
      * @param \DateTimeInterface $dropoffTime requested dropoff time (RFC 3339)
      * @param string $nonce client-generated idempotency key
-     * @param Location|LocationShape $pickupLocation A location specified by coordinates and/or postal address. At least one must be provided.
+     * @param LocationShape $pickupLocation pickup location for the delivery
      * @param \DateTimeInterface $pickupTime requested pickup time (RFC 3339)
      * @param string $dropoffInstructions dropoff directions, access codes, or delivery notes
      * @param string $pickupInstructions pickup directions, access codes, or handling notes
@@ -32,10 +33,10 @@ interface RequestsContract
      */
     public function create(
         string $id,
-        Location|array $dropoffLocation,
+        LocationWithPostalAddress|array|LocationWithCoordinates $dropoffLocation,
         \DateTimeInterface $dropoffTime,
         string $nonce,
-        Location|array $pickupLocation,
+        LocationWithPostalAddress|array|LocationWithCoordinates $pickupLocation,
         \DateTimeInterface $pickupTime,
         ?string $dropoffInstructions = null,
         ?string $pickupInstructions = null,

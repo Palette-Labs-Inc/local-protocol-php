@@ -37,7 +37,7 @@ final class ModifierGroup implements BaseModel
     public string $id;
 
     /**
-     * Ordered modifier options within this group.
+     * Ordered modifier options within this group. Order should be used for display.
      *
      * @var list<mixed> $modifierOptions
      */
@@ -51,7 +51,7 @@ final class ModifierGroup implements BaseModel
     public string $name;
 
     /**
-     * Whether options can be selected with quantities > 1.
+     * Whether modifier options can be selected with quantities greater than 1.
      */
     #[Optional('allow_quantities')]
     public ?bool $allowQuantities;
@@ -63,19 +63,19 @@ final class ModifierGroup implements BaseModel
     public ?string $description;
 
     /**
-     * Maximum quantity per modifier option.
+     * Maximum quantity allowed per modifier option. Defaults to 1 (each modifier can be selected at most once).
      */
     #[Optional('max_per_modifier')]
     public ?int $maxPerModifier;
 
     /**
-     * Maximum selections allowed.
+     * Maximum number of selections allowed from this group.
      */
     #[Optional('maximum_selections')]
     public ?int $maximumSelections;
 
     /**
-     * Business-defined custom data.
+     * Business-defined custom data extending the modifier group.
      *
      * @var array<string,mixed>|null $metadata
      */
@@ -83,7 +83,7 @@ final class ModifierGroup implements BaseModel
     public ?array $metadata;
 
     /**
-     * Minimum selections required.
+     * Minimum number of selections required from this group.
      */
     #[Optional('minimum_selections')]
     public ?int $minimumSelections;
@@ -162,7 +162,7 @@ final class ModifierGroup implements BaseModel
     }
 
     /**
-     * Ordered modifier options within this group.
+     * Ordered modifier options within this group. Order should be used for display.
      *
      * @param list<mixed> $modifierOptions
      */
@@ -186,7 +186,7 @@ final class ModifierGroup implements BaseModel
     }
 
     /**
-     * Whether options can be selected with quantities > 1.
+     * Whether modifier options can be selected with quantities greater than 1.
      */
     public function withAllowQuantities(bool $allowQuantities): self
     {
@@ -208,7 +208,7 @@ final class ModifierGroup implements BaseModel
     }
 
     /**
-     * Maximum quantity per modifier option.
+     * Maximum quantity allowed per modifier option. Defaults to 1 (each modifier can be selected at most once).
      */
     public function withMaxPerModifier(int $maxPerModifier): self
     {
@@ -219,7 +219,7 @@ final class ModifierGroup implements BaseModel
     }
 
     /**
-     * Maximum selections allowed.
+     * Maximum number of selections allowed from this group.
      */
     public function withMaximumSelections(int $maximumSelections): self
     {
@@ -230,7 +230,7 @@ final class ModifierGroup implements BaseModel
     }
 
     /**
-     * Business-defined custom data.
+     * Business-defined custom data extending the modifier group.
      *
      * @param array<string,mixed> $metadata
      */
@@ -243,7 +243,7 @@ final class ModifierGroup implements BaseModel
     }
 
     /**
-     * Minimum selections required.
+     * Minimum number of selections required from this group.
      */
     public function withMinimumSelections(int $minimumSelections): self
     {

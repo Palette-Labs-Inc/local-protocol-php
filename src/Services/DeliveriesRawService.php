@@ -30,7 +30,7 @@ final class DeliveriesRawService implements DeliveriesRawContract
     /**
      * @api
      *
-     * Accept a quote and create a delivery. The `nonce` field provides idempotency.
+     * Create a delivery from an accepted quote. The `nonce` field provides idempotency.
      *
      * @param array{
      *   nonce: string,

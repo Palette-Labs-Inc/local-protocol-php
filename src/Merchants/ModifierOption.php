@@ -55,7 +55,7 @@ final class ModifierOption implements BaseModel
     public ?bool $isDefault;
 
     /**
-     * Business-defined custom data.
+     * Business-defined custom data extending the modifier option.
      *
      * @var array<string,mixed>|null $metadata
      */
@@ -158,7 +158,7 @@ final class ModifierOption implements BaseModel
     }
 
     /**
-     * Business-defined custom data.
+     * Business-defined custom data extending the modifier option.
      *
      * @param array<string,mixed> $metadata
      */

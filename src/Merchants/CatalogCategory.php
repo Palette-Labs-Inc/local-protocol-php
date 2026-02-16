@@ -37,7 +37,7 @@ final class CatalogCategory implements BaseModel
     public string $id;
 
     /**
-     * Ordered items in this category.
+     * Ordered list of items in this category.
      *
      * @var list<mixed> $items
      */
@@ -51,13 +51,13 @@ final class CatalogCategory implements BaseModel
     public string $name;
 
     /**
-     * Category availability.
+     * Category availability. Ignored when the catalog defines availability.
      */
     #[Optional]
     public ?Availability $availability;
 
     /**
-     * Ordered child categories for nested category trees.
+     * Ordered list of child categories for nested category trees.
      *
      * @var list<mixed>|null $categories
      */
@@ -71,7 +71,7 @@ final class CatalogCategory implements BaseModel
     public ?string $description;
 
     /**
-     * Business-defined custom data.
+     * Business-defined custom data extending the category.
      *
      * @var array<string,mixed>|null $metadata
      */
@@ -142,7 +142,7 @@ final class CatalogCategory implements BaseModel
     }
 
     /**
-     * Ordered items in this category.
+     * Ordered list of items in this category.
      *
      * @param list<mixed> $items
      */
@@ -166,7 +166,7 @@ final class CatalogCategory implements BaseModel
     }
 
     /**
-     * Category availability.
+     * Category availability. Ignored when the catalog defines availability.
      *
      * @param Availability|AvailabilityShape $availability
      */
@@ -179,7 +179,7 @@ final class CatalogCategory implements BaseModel
     }
 
     /**
-     * Ordered child categories for nested category trees.
+     * Ordered list of child categories for nested category trees.
      *
      * @param list<mixed> $categories
      */
@@ -203,7 +203,7 @@ final class CatalogCategory implements BaseModel
     }
 
     /**
-     * Business-defined custom data.
+     * Business-defined custom data extending the category.
      *
      * @param array<string,mixed> $metadata
      */

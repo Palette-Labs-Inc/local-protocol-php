@@ -22,6 +22,9 @@ final class QuoteRetrieveParams implements BaseModel
     use SdkModel;
     use SdkParams;
 
+    /**
+     * Order request identifier.
+     */
     #[Required]
     public string $orderRequestID;
 
@@ -58,6 +61,9 @@ final class QuoteRetrieveParams implements BaseModel
         return $self;
     }
 
+    /**
+     * Order request identifier.
+     */
     public function withOrderRequestID(string $orderRequestID): self
     {
         $self = clone $this;
