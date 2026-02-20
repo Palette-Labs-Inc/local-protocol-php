@@ -32,7 +32,7 @@ final class PaymentInstrumentsTest extends TestCase
     public function testRegister(): void
     {
         if (UnsupportedMockTests::$skip) {
-            $this->markTestSkipped('Prism tests are disabled');
+            $this->markTestSkipped('Mock server tests are disabled');
         }
 
         $result = $this->client->paymentInstruments->register(
@@ -78,7 +78,7 @@ final class PaymentInstrumentsTest extends TestCase
     public function testRegisterWithOptionalParams(): void
     {
         if (UnsupportedMockTests::$skip) {
-            $this->markTestSkipped('Prism tests are disabled');
+            $this->markTestSkipped('Mock server tests are disabled');
         }
 
         $result = $this->client->paymentInstruments->register(
