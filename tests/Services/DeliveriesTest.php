@@ -32,7 +32,7 @@ final class DeliveriesTest extends TestCase
     public function testCreate(): void
     {
         if (UnsupportedMockTests::$skip) {
-            $this->markTestSkipped('Prism tests are disabled');
+            $this->markTestSkipped('Mock server tests are disabled');
         }
 
         $result = $this->client->deliveries->create(
@@ -49,7 +49,7 @@ final class DeliveriesTest extends TestCase
     public function testCreateWithOptionalParams(): void
     {
         if (UnsupportedMockTests::$skip) {
-            $this->markTestSkipped('Prism tests are disabled');
+            $this->markTestSkipped('Mock server tests are disabled');
         }
 
         $result = $this->client->deliveries->create(
@@ -57,7 +57,7 @@ final class DeliveriesTest extends TestCase
             quoteID: 'quote_id',
             requestID: 'request_id',
             eventVocabulary: 'event_vocabulary',
-            webhookURL: 'webhook_url',
+            webhookURL: 'https://example.com',
         );
 
         // @phpstan-ignore-next-line method.alreadyNarrowedType
@@ -68,7 +68,7 @@ final class DeliveriesTest extends TestCase
     public function testRetrieve(): void
     {
         if (UnsupportedMockTests::$skip) {
-            $this->markTestSkipped('Prism tests are disabled');
+            $this->markTestSkipped('Mock server tests are disabled');
         }
 
         $result = $this->client->deliveries->retrieve('delivery_id');
@@ -81,7 +81,7 @@ final class DeliveriesTest extends TestCase
     public function testList(): void
     {
         if (UnsupportedMockTests::$skip) {
-            $this->markTestSkipped('Prism tests are disabled');
+            $this->markTestSkipped('Mock server tests are disabled');
         }
 
         $result = $this->client->deliveries->list();
@@ -94,7 +94,7 @@ final class DeliveriesTest extends TestCase
     public function testUpdateEvent(): void
     {
         if (UnsupportedMockTests::$skip) {
-            $this->markTestSkipped('Prism tests are disabled');
+            $this->markTestSkipped('Mock server tests are disabled');
         }
 
         $result = $this->client->deliveries->updateEvent(
@@ -111,7 +111,7 @@ final class DeliveriesTest extends TestCase
     public function testUpdateEventWithOptionalParams(): void
     {
         if (UnsupportedMockTests::$skip) {
-            $this->markTestSkipped('Prism tests are disabled');
+            $this->markTestSkipped('Mock server tests are disabled');
         }
 
         $result = $this->client->deliveries->updateEvent(

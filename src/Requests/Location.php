@@ -4,81 +4,30 @@ declare(strict_types=1);
 
 namespace LocalProtocol\Requests;
 
-use LocalProtocol\Core\Attributes\Optional;
-use LocalProtocol\Core\Concerns\SdkModel;
-use LocalProtocol\Core\Contracts\BaseModel;
+use LocalProtocol\Core\Concerns\SdkUnion;
+use LocalProtocol\Core\Conversion\Contracts\Converter;
+use LocalProtocol\Core\Conversion\Contracts\ConverterSource;
+use LocalProtocol\Requests\Location\LocationWithCoordinates;
+use LocalProtocol\Requests\Location\LocationWithPostalAddress;
 
 /**
- * A location specified by coordinates and/or postal address. At least one must be provided.
+ * Location.
  *
- * @phpstan-import-type CoordinatesShape from \LocalProtocol\Requests\Coordinates
- * @phpstan-import-type PostalAddressShape from \LocalProtocol\Requests\PostalAddress
+ * @phpstan-import-type LocationWithPostalAddressShape from \LocalProtocol\Requests\Location\LocationWithPostalAddress
+ * @phpstan-import-type LocationWithCoordinatesShape from \LocalProtocol\Requests\Location\LocationWithCoordinates
  *
- * @phpstan-type LocationShape = array{
- *   coordinates?: null|Coordinates|CoordinatesShape,
- *   postalAddress?: null|PostalAddress|PostalAddressShape,
- * }
+ * @phpstan-type LocationVariants = LocationWithPostalAddress|LocationWithCoordinates
+ * @phpstan-type LocationShape = LocationVariants|LocationWithPostalAddressShape|LocationWithCoordinatesShape
  */
-final class Location implements BaseModel
+final class Location implements ConverterSource
 {
-    /** @use SdkModel<LocationShape> */
-    use SdkModel;
+    use SdkUnion;
 
     /**
-     * Geographic coordinates.
+     * @return list<string|Converter|ConverterSource>|array<string,string|Converter|ConverterSource>
      */
-    #[Optional]
-    public ?Coordinates $coordinates;
-
-    #[Optional('postal_address')]
-    public ?PostalAddress $postalAddress;
-
-    public function __construct()
+    public static function variants(): array
     {
-        $this->initialize();
-    }
-
-    /**
-     * Construct an instance from the required parameters.
-     *
-     * You must use named parameters to construct any parameters with a default value.
-     *
-     * @param Coordinates|CoordinatesShape|null $coordinates
-     * @param PostalAddress|PostalAddressShape|null $postalAddress
-     */
-    public static function with(
-        Coordinates|array|null $coordinates = null,
-        PostalAddress|array|null $postalAddress = null,
-    ): self {
-        $self = new self;
-
-        null !== $coordinates && $self['coordinates'] = $coordinates;
-        null !== $postalAddress && $self['postalAddress'] = $postalAddress;
-
-        return $self;
-    }
-
-    /**
-     * Geographic coordinates.
-     *
-     * @param Coordinates|CoordinatesShape $coordinates
-     */
-    public function withCoordinates(Coordinates|array $coordinates): self
-    {
-        $self = clone $this;
-        $self['coordinates'] = $coordinates;
-
-        return $self;
-    }
-
-    /**
-     * @param PostalAddress|PostalAddressShape $postalAddress
-     */
-    public function withPostalAddress(PostalAddress|array $postalAddress): self
-    {
-        $self = clone $this;
-        $self['postalAddress'] = $postalAddress;
-
-        return $self;
+        return [LocationWithPostalAddress::class, LocationWithCoordinates::class];
     }
 }

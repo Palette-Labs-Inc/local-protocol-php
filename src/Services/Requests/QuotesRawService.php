@@ -10,7 +10,6 @@ use LocalProtocol\Core\Conversion\ListOf;
 use LocalProtocol\Core\Exceptions\APIException;
 use LocalProtocol\PaymentInstruments\Payment;
 use LocalProtocol\RequestOptions;
-use LocalProtocol\Requests\Location;
 use LocalProtocol\Requests\Quotes\DeliveryQuote;
 use LocalProtocol\Requests\Quotes\QuoteCreateParams;
 use LocalProtocol\Requests\Quotes\QuoteRetrieveParams;
@@ -41,11 +40,11 @@ final class QuotesRawService implements QuotesRawContract
      *   id: string,
      *   currency: string,
      *   dropoffEstimate: \DateTimeInterface,
-     *   dropoffLocation: Location|LocationShape,
+     *   dropoffLocation: LocationShape,
      *   nonce: string,
      *   payment: Payment|PaymentShape,
      *   pickupEstimate: \DateTimeInterface,
-     *   pickupLocation: Location|LocationShape,
+     *   pickupLocation: LocationShape,
      *   price: int,
      *   expiresAt?: \DateTimeInterface,
      * }|QuoteCreateParams $params

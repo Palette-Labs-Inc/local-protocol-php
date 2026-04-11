@@ -34,7 +34,7 @@ final class DeliveriesService implements DeliveriesContract
     /**
      * @api
      *
-     * Accept a quote and create a delivery. The `nonce` field provides idempotency.
+     * Create a delivery from an accepted quote. The `nonce` field provides idempotency.
      *
      * @param string $nonce client-generated idempotency key
      * @param string $quoteID the accepted quote

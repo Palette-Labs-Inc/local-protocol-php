@@ -31,7 +31,7 @@ final class Amount implements BaseModel
     public FiatCurrency|EvmCurrency $currency;
 
     /**
-     * Value in minor currency units as an integer string.
+     * Value in minor currency units as an integer string (e.g., "1000" = $10.00 USD, or atomic units for EVM tokens). Use "0" for free items.
      */
     #[Required]
     public string $value;
@@ -88,7 +88,7 @@ final class Amount implements BaseModel
     }
 
     /**
-     * Value in minor currency units as an integer string.
+     * Value in minor currency units as an integer string (e.g., "1000" = $10.00 USD, or atomic units for EVM tokens). Use "0" for free items.
      */
     public function withValue(string $value): self
     {

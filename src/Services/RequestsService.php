@@ -9,7 +9,8 @@ use LocalProtocol\Core\Exceptions\APIException;
 use LocalProtocol\Core\Util;
 use LocalProtocol\RequestOptions;
 use LocalProtocol\Requests\DeliveryRequest;
-use LocalProtocol\Requests\Location;
+use LocalProtocol\Requests\Location\LocationWithCoordinates;
+use LocalProtocol\Requests\Location\LocationWithPostalAddress;
 use LocalProtocol\ServiceContracts\RequestsContract;
 use LocalProtocol\Services\Requests\QuotesService;
 
@@ -46,10 +47,10 @@ final class RequestsService implements RequestsContract
      * Submit a new delivery request. The `nonce` field provides idempotency.
      *
      * @param string $id unique request identifier
-     * @param Location|LocationShape $dropoffLocation A location specified by coordinates and/or postal address. At least one must be provided.
+     * @param LocationShape $dropoffLocation dropoff location for the delivery
      * @param \DateTimeInterface $dropoffTime requested dropoff time (RFC 3339)
      * @param string $nonce client-generated idempotency key
-     * @param Location|LocationShape $pickupLocation A location specified by coordinates and/or postal address. At least one must be provided.
+     * @param LocationShape $pickupLocation pickup location for the delivery
      * @param \DateTimeInterface $pickupTime requested pickup time (RFC 3339)
      * @param string $dropoffInstructions dropoff directions, access codes, or delivery notes
      * @param string $pickupInstructions pickup directions, access codes, or handling notes
@@ -59,10 +60,10 @@ final class RequestsService implements RequestsContract
      */
     public function create(
         string $id,
-        Location|array $dropoffLocation,
+        LocationWithPostalAddress|array|LocationWithCoordinates $dropoffLocation,
         \DateTimeInterface $dropoffTime,
         string $nonce,
-        Location|array $pickupLocation,
+        LocationWithPostalAddress|array|LocationWithCoordinates $pickupLocation,
         \DateTimeInterface $pickupTime,
         ?string $dropoffInstructions = null,
         ?string $pickupInstructions = null,

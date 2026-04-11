@@ -11,7 +11,7 @@ use LocalProtocol\Core\Concerns\SdkParams;
 use LocalProtocol\Core\Contracts\BaseModel;
 
 /**
- * Accept a quote and create a delivery. The `nonce` field provides idempotency.
+ * Create a delivery from an accepted quote. The `nonce` field provides idempotency.
  *
  * @see LocalProtocol\Services\DeliveriesService::create()
  *

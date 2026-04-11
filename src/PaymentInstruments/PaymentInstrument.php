@@ -8,20 +8,20 @@ use LocalProtocol\Core\Attributes\Optional;
 use LocalProtocol\Core\Attributes\Required;
 use LocalProtocol\Core\Concerns\SdkModel;
 use LocalProtocol\Core\Contracts\BaseModel;
+use LocalProtocol\PaymentInstruments\PaymentInstrument\BillingAddress;
 use LocalProtocol\PaymentInstruments\PaymentInstrument\Credential;
-use LocalProtocol\Requests\PostalAddress;
 
 /**
- * Base definition for any payment instrument.
+ * The base definition for any payment instrument. It links the instrument to a specific payment handler.
  *
- * @phpstan-import-type PostalAddressShape from \LocalProtocol\Requests\PostalAddress
+ * @phpstan-import-type BillingAddressShape from \LocalProtocol\PaymentInstruments\PaymentInstrument\BillingAddress
  * @phpstan-import-type CredentialShape from \LocalProtocol\PaymentInstruments\PaymentInstrument\Credential
  *
  * @phpstan-type PaymentInstrumentShape = array{
  *   id: string,
  *   handlerID: string,
  *   type: string,
- *   billingAddress?: null|PostalAddress|PostalAddressShape,
+ *   billingAddress?: null|BillingAddress|BillingAddressShape,
  *   credential?: null|Credential|CredentialShape,
  *   display?: array<string,mixed>|null,
  * }
@@ -32,37 +32,37 @@ final class PaymentInstrument implements BaseModel
     use SdkModel;
 
     /**
-     * Unique instrument identifier.
+     * A unique identifier for this instrument instance, assigned by the platform.
      */
     #[Required]
     public string $id;
 
     /**
-     * Handler instance identifier.
+     * The unique identifier for the handler instance that produced this instrument. This corresponds to the 'id' field in the Payment Handler definition.
      */
     #[Required('handler_id')]
     public string $handlerID;
 
     /**
-     * Instrument category (e.g., 'card', 'tokenized_card').
+     * The broad category of the instrument (e.g., 'card', 'tokenized_card'). Specific schemas will constrain this to a constant value.
      */
     #[Required]
     public string $type;
 
     /**
-     * Billing address.
+     * The billing address associated with this payment method.
      */
     #[Optional('billing_address')]
-    public ?PostalAddress $billingAddress;
+    public ?BillingAddress $billingAddress;
 
     /**
-     * Base definition for any payment credential.
+     * The base definition for any payment credential. Handlers define specific credential types.
      */
     #[Optional]
     public ?Credential $credential;
 
     /**
-     * Display information for the instrument. Each payment instrument schema defines its specific display properties, as outlined by the payment handler.
+     * Display information for this payment instrument. Each payment instrument schema defines its specific display properties, as outlined by the payment handler.
      *
      * @var array<string,mixed>|null $display
      */
@@ -93,7 +93,7 @@ final class PaymentInstrument implements BaseModel
      *
      * You must use named parameters to construct any parameters with a default value.
      *
-     * @param PostalAddress|PostalAddressShape|null $billingAddress
+     * @param BillingAddress|BillingAddressShape|null $billingAddress
      * @param Credential|CredentialShape|null $credential
      * @param array<string,mixed>|null $display
      */
@@ -101,7 +101,7 @@ final class PaymentInstrument implements BaseModel
         string $id,
         string $handlerID,
         string $type,
-        PostalAddress|array|null $billingAddress = null,
+        BillingAddress|array|null $billingAddress = null,
         Credential|array|null $credential = null,
         ?array $display = null,
     ): self {
@@ -119,7 +119,7 @@ final class PaymentInstrument implements BaseModel
     }
 
     /**
-     * Unique instrument identifier.
+     * A unique identifier for this instrument instance, assigned by the platform.
      */
     public function withID(string $id): self
     {
@@ -130,7 +130,7 @@ final class PaymentInstrument implements BaseModel
     }
 
     /**
-     * Handler instance identifier.
+     * The unique identifier for the handler instance that produced this instrument. This corresponds to the 'id' field in the Payment Handler definition.
      */
     public function withHandlerID(string $handlerID): self
     {
@@ -141,7 +141,7 @@ final class PaymentInstrument implements BaseModel
     }
 
     /**
-     * Instrument category (e.g., 'card', 'tokenized_card').
+     * The broad category of the instrument (e.g., 'card', 'tokenized_card'). Specific schemas will constrain this to a constant value.
      */
     public function withType(string $type): self
     {
@@ -152,12 +152,12 @@ final class PaymentInstrument implements BaseModel
     }
 
     /**
-     * Billing address.
+     * The billing address associated with this payment method.
      *
-     * @param PostalAddress|PostalAddressShape $billingAddress
+     * @param BillingAddress|BillingAddressShape $billingAddress
      */
     public function withBillingAddress(
-        PostalAddress|array $billingAddress
+        BillingAddress|array $billingAddress
     ): self {
         $self = clone $this;
         $self['billingAddress'] = $billingAddress;
@@ -166,7 +166,7 @@ final class PaymentInstrument implements BaseModel
     }
 
     /**
-     * Base definition for any payment credential.
+     * The base definition for any payment credential. Handlers define specific credential types.
      *
      * @param Credential|CredentialShape $credential
      */
@@ -179,7 +179,7 @@ final class PaymentInstrument implements BaseModel
     }
 
     /**
-     * Display information for the instrument. Each payment instrument schema defines its specific display properties, as outlined by the payment handler.
+     * Display information for this payment instrument. Each payment instrument schema defines its specific display properties, as outlined by the payment handler.
      *
      * @param array<string,mixed> $display
      */

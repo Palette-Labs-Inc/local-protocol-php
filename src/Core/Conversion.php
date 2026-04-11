@@ -21,6 +21,10 @@ final class Conversion
         }
 
         if (is_object($value)) {
+            if ($value instanceof FileParam) {
+                return $value;
+            }
+
             if (is_a($value, class: ConverterSource::class)) {
                 return $value::converter()->dump($value, state: $state);
             }
@@ -164,6 +168,37 @@ final class Conversion
 
                 if ($value instanceof \Generator) {
                     return implode('', iterator_to_array($value));
+                }
+
+                ++$state->no;
+
+                return $value;
+
+            case 'DateTimeInterface':
+            case 'DateTimeImmutable':
+                if (is_string($value)) {
+                    try {
+                        ++$state->maybe;
+
+                        return new \DateTimeImmutable($value);
+                    } catch (\Exception) {
+                        --$state->maybe;
+                    }
+                }
+
+                ++$state->no;
+
+                return $value;
+
+            case 'DateTime':
+                if (is_string($value)) {
+                    try {
+                        ++$state->maybe;
+
+                        return new \DateTime($value);
+                    } catch (\Exception) {
+                        --$state->maybe;
+                    }
                 }
 
                 ++$state->no;

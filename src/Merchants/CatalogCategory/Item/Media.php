@@ -47,13 +47,13 @@ final class Media implements BaseModel
     public ?string $altText;
 
     /**
-     * Height in pixels.
+     * Height in pixels (for images/video).
      */
     #[Optional]
     public ?int $height;
 
     /**
-     * Width in pixels.
+     * Width in pixels (for images/video).
      */
     #[Optional]
     public ?int $width;
@@ -139,7 +139,7 @@ final class Media implements BaseModel
     }
 
     /**
-     * Height in pixels.
+     * Height in pixels (for images/video).
      */
     public function withHeight(int $height): self
     {
@@ -150,7 +150,7 @@ final class Media implements BaseModel
     }
 
     /**
-     * Width in pixels.
+     * Width in pixels (for images/video).
      */
     public function withWidth(int $width): self
     {

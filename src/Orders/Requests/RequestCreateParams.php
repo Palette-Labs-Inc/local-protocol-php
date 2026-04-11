@@ -34,7 +34,7 @@ final class RequestCreateParams implements BaseModel
     public string $id;
 
     /**
-     * Shared intent identifier for tracing Request -> Quote -> Order.
+     * Shared intent identifier for tracing Request → Quote → Order.
      */
     #[Required('intent_id')]
     public string $intentID;
@@ -111,7 +111,7 @@ final class RequestCreateParams implements BaseModel
     }
 
     /**
-     * Shared intent identifier for tracing Request -> Quote -> Order.
+     * Shared intent identifier for tracing Request → Quote → Order.
      */
     public function withIntentID(string $intentID): self
     {

@@ -9,7 +9,7 @@ use LocalProtocol\Core\Concerns\SdkModel;
 use LocalProtocol\Core\Contracts\BaseModel;
 
 /**
- * An order request.
+ * OrderRequest.
  *
  * @phpstan-type RequestNewResponseShape = array{
  *   id: string, intentID: string, nonce: string
@@ -27,7 +27,7 @@ final class RequestNewResponse implements BaseModel
     public string $id;
 
     /**
-     * Shared intent identifier for tracing Request -> Quote -> Order.
+     * Shared intent identifier for tracing Request → Quote → Order.
      */
     #[Required('intent_id')]
     public string $intentID;
@@ -88,7 +88,7 @@ final class RequestNewResponse implements BaseModel
     }
 
     /**
-     * Shared intent identifier for tracing Request -> Quote -> Order.
+     * Shared intent identifier for tracing Request → Quote → Order.
      */
     public function withIntentID(string $intentID): self
     {

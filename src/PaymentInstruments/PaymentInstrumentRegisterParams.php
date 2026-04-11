@@ -9,9 +9,12 @@ use LocalProtocol\Core\Attributes\Required;
 use LocalProtocol\Core\Concerns\SdkModel;
 use LocalProtocol\Core\Concerns\SdkParams;
 use LocalProtocol\Core\Contracts\BaseModel;
+use LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\Amount;
+use LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\BillingAddress;
 use LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\Credential;
+use LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\MaxAmount;
 use LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\Token;
-use LocalProtocol\Requests\PostalAddress;
+use LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\Type;
 
 /**
  * Register a payment instrument for use in order creation.
@@ -19,20 +22,20 @@ use LocalProtocol\Requests\PostalAddress;
  * @see LocalProtocol\Services\PaymentInstrumentsService::register()
  *
  * @phpstan-import-type TokenShape from \LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\Token
- * @phpstan-import-type EvmAmountShape from \LocalProtocol\PaymentInstruments\EvmAmount
- * @phpstan-import-type PostalAddressShape from \LocalProtocol\Requests\PostalAddress
+ * @phpstan-import-type AmountShape from \LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\Amount
+ * @phpstan-import-type MaxAmountShape from \LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\MaxAmount
+ * @phpstan-import-type BillingAddressShape from \LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\BillingAddress
  * @phpstan-import-type CredentialShape from \LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\Credential
  *
  * @phpstan-type PaymentInstrumentRegisterParamsShape = array{
- *   type: 'evm_auth_capture_escrow',
  *   id: string,
  *   token: Token|TokenShape,
- *   amount: EvmAmount|EvmAmountShape,
+ *   amount: \LocalProtocol\PaymentInstruments\PaymentInstrumentRegisterParams\Amount|AmountShape,
  *   authorizationExpiresAt: \DateTimeInterface,
  *   chainID: int,
  *   contract: string,
  *   handlerID: string,
- *   maxAmount: EvmAmount|EvmAmountShape,
+ *   maxAmount: MaxAmount|MaxAmountShape,
  *   nonce: string,
  *   operator: string,
  *   payer: string,
@@ -40,7 +43,8 @@ use LocalProtocol\Requests\PostalAddress;
  *   preapprovalExpiresAt: \DateTimeInterface,
  *   receiver: string,
  *   refundExpiresAt: \DateTimeInterface,
- *   billingAddress?: null|PostalAddress|PostalAddressShape,
+ *   type: Type|value-of<Type>,
+ *   billingAddress?: null|BillingAddress|BillingAddressShape,
  *   credential?: null|Credential|CredentialShape,
  *   display?: array<string,mixed>|null,
  * }
@@ -51,18 +55,14 @@ final class PaymentInstrumentRegisterParams implements BaseModel
     use SdkModel;
     use SdkParams;
 
-    /** @var 'evm_auth_capture_escrow' $type */
-    #[Required]
-    public string $type = 'evm_auth_capture_escrow';
-
     /**
-     * Unique instrument identifier.
+     * A unique identifier for this instrument instance, assigned by the platform.
      */
     #[Required]
     public string $id;
 
     /**
-     * EVM token identifier used for auth/capture settlement.
+     * EVM token.
      */
     #[Required]
     public Token $token;
@@ -71,28 +71,28 @@ final class PaymentInstrumentRegisterParams implements BaseModel
      * Amount in atomic units. Currency chain_id MUST match the instrument chain_id; currency address and decimals MUST match token address and decimals.
      */
     #[Required]
-    public EvmAmount $amount;
+    public Amount $amount;
 
     /**
-     * Authorization expiration (RFC 3339).
+     * Authorization expiration timestamp (RFC 3339).
      */
     #[Required('authorization_expires_at')]
     public \DateTimeInterface $authorizationExpiresAt;
 
     /**
-     * EVM chain id.
+     * EVM chain id for the escrow contract.
      */
     #[Required('chain_id')]
     public int $chainID;
 
     /**
-     * Escrow contract address.
+     * Escrow contract address on the target chain.
      */
     #[Required]
     public string $contract;
 
     /**
-     * Handler instance identifier.
+     * The unique identifier for the handler instance that produced this instrument. This corresponds to the 'id' field in the Payment Handler definition.
      */
     #[Required('handler_id')]
     public string $handlerID;
@@ -101,64 +101,68 @@ final class PaymentInstrumentRegisterParams implements BaseModel
      * Maximum amount that can be authorized (atomic units). Currency chain_id MUST match the instrument chain_id; currency address and decimals MUST match token address and decimals.
      */
     #[Required('max_amount')]
-    public EvmAmount $maxAmount;
+    public MaxAmount $maxAmount;
 
     /**
-     * Unique nonce for payment info hash computation.
+     * Unique nonce used to compute the payment info hash.
      */
     #[Required]
     public string $nonce;
 
     /**
-     * Operator address.
+     * Operator address used to compute the payment info hash.
      */
     #[Required]
     public string $operator;
 
     /**
-     * Payer address.
+     * Payer address used to compute the payment info hash.
      */
     #[Required]
     public string $payer;
 
     /**
-     * Hash identifying the on-chain payment authorization.
+     * Hash that identifies the on-chain payment authorization.
      */
     #[Required('payment_info_hash')]
     public string $paymentInfoHash;
 
     /**
-     * Pre-approval expiration (RFC 3339).
+     * Pre-approval expiration timestamp (RFC 3339).
      */
     #[Required('preapproval_expires_at')]
     public \DateTimeInterface $preapprovalExpiresAt;
 
     /**
-     * Receiver address for captures.
+     * Receiver address used for captures.
      */
     #[Required]
     public string $receiver;
 
     /**
-     * Refund expiration (RFC 3339).
+     * Refund expiration timestamp (RFC 3339).
      */
     #[Required('refund_expires_at')]
     public \DateTimeInterface $refundExpiresAt;
 
-    /**
-     * Billing address.
-     */
-    #[Optional('billing_address')]
-    public ?PostalAddress $billingAddress;
+    /** @var value-of<Type> $type */
+    #[Required(enum: Type::class)]
+    public string $type;
 
     /**
-     * Base definition for any payment credential.
+     * The billing address associated with this payment method.
+     */
+    #[Optional('billing_address')]
+    public ?BillingAddress $billingAddress;
+
+    /**
+     * The base definition for any payment credential. Handlers define specific credential types.
      */
     #[Optional]
     public ?Credential $credential;
 
     /**
-     * Display information for the instrument. Each payment instrument schema defines its specific display properties, as outlined by the payment handler.
+     * Display information for this payment instrument. Each payment instrument schema defines its specific display properties, as outlined by the payment handler.
      *
      * @var array<string,mixed>|null $display
      */
@@ -186,6 +190,7 @@ final class PaymentInstrumentRegisterParams implements BaseModel
      *   preapprovalExpiresAt: ...,
      *   receiver: ...,
      *   refundExpiresAt: ...,
+     *   type: ...,
      * )
      * ```
      *
@@ -208,6 +213,7 @@ final class PaymentInstrumentRegisterParams implements BaseModel
      *   ->withPreapprovalExpiresAt(...)
      *   ->withReceiver(...)
      *   ->withRefundExpiresAt(...)
+     *   ->withType(...)
      * ```
      */
     public function __construct()
@@ -221,21 +227,22 @@ final class PaymentInstrumentRegisterParams implements BaseModel
      * You must use named parameters to construct any parameters with a default value.
      *
      * @param Token|TokenShape $token
-     * @param EvmAmount|EvmAmountShape $amount
-     * @param EvmAmount|EvmAmountShape $maxAmount
-     * @param PostalAddress|PostalAddressShape|null $billingAddress
+     * @param Amount|AmountShape $amount
+     * @param MaxAmount|MaxAmountShape $maxAmount
+     * @param Type|value-of<Type> $type
+     * @param BillingAddress|BillingAddressShape|null $billingAddress
      * @param Credential|CredentialShape|null $credential
      * @param array<string,mixed>|null $display
      */
     public static function with(
         string $id,
         Token|array $token,
-        EvmAmount|array $amount,
+        Amount|array $amount,
         \DateTimeInterface $authorizationExpiresAt,
         int $chainID,
         string $contract,
         string $handlerID,
-        EvmAmount|array $maxAmount,
+        MaxAmount|array $maxAmount,
         string $nonce,
         string $operator,
         string $payer,
@@ -243,7 +250,8 @@ final class PaymentInstrumentRegisterParams implements BaseModel
         \DateTimeInterface $preapprovalExpiresAt,
         string $receiver,
         \DateTimeInterface $refundExpiresAt,
-        PostalAddress|array|null $billingAddress = null,
+        Type|string $type,
+        BillingAddress|array|null $billingAddress = null,
         Credential|array|null $credential = null,
         ?array $display = null,
     ): self {
@@ -264,6 +272,7 @@ final class PaymentInstrumentRegisterParams implements BaseModel
         $self['preapprovalExpiresAt'] = $preapprovalExpiresAt;
         $self['receiver'] = $receiver;
         $self['refundExpiresAt'] = $refundExpiresAt;
+        $self['type'] = $type;
 
         null !== $billingAddress && $self['billingAddress'] = $billingAddress;
         null !== $credential && $self['credential'] = $credential;
@@ -273,18 +282,7 @@ final class PaymentInstrumentRegisterParams implements BaseModel
     }
 
     /**
-     * @param 'evm_auth_capture_escrow' $type
-     */
-    public function withType(string $type): self
-    {
-        $self = clone $this;
-        $self['type'] = $type;
-
-        return $self;
-    }
-
-    /**
-     * Unique instrument identifier.
+     * A unique identifier for this instrument instance, assigned by the platform.
      */
     public function withID(string $id): self
     {
@@ -295,7 +293,7 @@ final class PaymentInstrumentRegisterParams implements BaseModel
     }
 
     /**
-     * EVM token identifier used for auth/capture settlement.
+     * EVM token.
      *
      * @param Token|TokenShape $token
      */
@@ -310,10 +308,11 @@ final class PaymentInstrumentRegisterParams implements BaseModel
     /**
      * Amount in atomic units. Currency chain_id MUST match the instrument chain_id; currency address and decimals MUST match token address and decimals.
      *
-     * @param EvmAmount|EvmAmountShape $amount
+     * @param Amount|AmountShape $amount
      */
-    public function withAmount(EvmAmount|array $amount): self
-    {
+    public function withAmount(
+        Amount|array $amount,
+    ): self {
         $self = clone $this;
         $self['amount'] = $amount;
 
@@ -321,7 +320,7 @@ final class PaymentInstrumentRegisterParams implements BaseModel
     }
 
     /**
-     * Authorization expiration (RFC 3339).
+     * Authorization expiration timestamp (RFC 3339).
      */
     public function withAuthorizationExpiresAt(
         \DateTimeInterface $authorizationExpiresAt
@@ -333,7 +332,7 @@ final class PaymentInstrumentRegisterParams implements BaseModel
     }
 
     /**
-     * EVM chain id.
+     * EVM chain id for the escrow contract.
      */
     public function withChainID(int $chainID): self
     {
@@ -344,7 +343,7 @@ final class PaymentInstrumentRegisterParams implements BaseModel
     }
 
     /**
-     * Escrow contract address.
+     * Escrow contract address on the target chain.
      */
     public function withContract(string $contract): self
     {
@@ -355,7 +354,7 @@ final class PaymentInstrumentRegisterParams implements BaseModel
     }
 
     /**
-     * Handler instance identifier.
+     * The unique identifier for the handler instance that produced this instrument. This corresponds to the 'id' field in the Payment Handler definition.
      */
     public function withHandlerID(string $handlerID): self
     {
@@ -368,9 +367,9 @@ final class PaymentInstrumentRegisterParams implements BaseModel
     /**
      * Maximum amount that can be authorized (atomic units). Currency chain_id MUST match the instrument chain_id; currency address and decimals MUST match token address and decimals.
      *
-     * @param EvmAmount|EvmAmountShape $maxAmount
+     * @param MaxAmount|MaxAmountShape $maxAmount
      */
-    public function withMaxAmount(EvmAmount|array $maxAmount): self
+    public function withMaxAmount(MaxAmount|array $maxAmount): self
     {
         $self = clone $this;
         $self['maxAmount'] = $maxAmount;
@@ -379,7 +378,7 @@ final class PaymentInstrumentRegisterParams implements BaseModel
     }
 
     /**
-     * Unique nonce for payment info hash computation.
+     * Unique nonce used to compute the payment info hash.
      */
     public function withNonce(string $nonce): self
     {
@@ -390,7 +389,7 @@ final class PaymentInstrumentRegisterParams implements BaseModel
     }
 
     /**
-     * Operator address.
+     * Operator address used to compute the payment info hash.
      */
     public function withOperator(string $operator): self
     {
@@ -401,7 +400,7 @@ final class PaymentInstrumentRegisterParams implements BaseModel
     }
 
     /**
-     * Payer address.
+     * Payer address used to compute the payment info hash.
      */
     public function withPayer(string $payer): self
     {
@@ -412,7 +411,7 @@ final class PaymentInstrumentRegisterParams implements BaseModel
     }
 
     /**
-     * Hash identifying the on-chain payment authorization.
+     * Hash that identifies the on-chain payment authorization.
      */
     public function withPaymentInfoHash(string $paymentInfoHash): self
     {
@@ -423,7 +422,7 @@ final class PaymentInstrumentRegisterParams implements BaseModel
     }
 
     /**
-     * Pre-approval expiration (RFC 3339).
+     * Pre-approval expiration timestamp (RFC 3339).
      */
     public function withPreapprovalExpiresAt(
         \DateTimeInterface $preapprovalExpiresAt
@@ -435,7 +434,7 @@ final class PaymentInstrumentRegisterParams implements BaseModel
     }
 
     /**
-     * Receiver address for captures.
+     * Receiver address used for captures.
      */
     public function withReceiver(string $receiver): self
     {
@@ -446,7 +445,7 @@ final class PaymentInstrumentRegisterParams implements BaseModel
     }
 
     /**
-     * Refund expiration (RFC 3339).
+     * Refund expiration timestamp (RFC 3339).
      */
     public function withRefundExpiresAt(
         \DateTimeInterface $refundExpiresAt
@@ -458,12 +457,23 @@ final class PaymentInstrumentRegisterParams implements BaseModel
     }
 
     /**
-     * Billing address.
+     * @param Type|value-of<Type> $type
+     */
+    public function withType(Type|string $type): self
+    {
+        $self = clone $this;
+        $self['type'] = $type;
+
+        return $self;
+    }
+
+    /**
+     * The billing address associated with this payment method.
      *
-     * @param PostalAddress|PostalAddressShape $billingAddress
+     * @param BillingAddress|BillingAddressShape $billingAddress
      */
     public function withBillingAddress(
-        PostalAddress|array $billingAddress
+        BillingAddress|array $billingAddress
     ): self {
         $self = clone $this;
         $self['billingAddress'] = $billingAddress;
@@ -472,7 +482,7 @@ final class PaymentInstrumentRegisterParams implements BaseModel
     }
 
     /**
-     * Base definition for any payment credential.
+     * The base definition for any payment credential. Handlers define specific credential types.
      *
      * @param Credential|CredentialShape $credential
      */
@@ -485,7 +495,7 @@ final class PaymentInstrumentRegisterParams implements BaseModel
     }
 
     /**
-     * Display information for the instrument. Each payment instrument schema defines its specific display properties, as outlined by the payment handler.
+     * Display information for this payment instrument. Each payment instrument schema defines its specific display properties, as outlined by the payment handler.
      *
      * @param array<string,mixed> $display
      */
