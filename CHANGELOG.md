@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.3.0 (2026-04-11)
+
+Full Changelog: [v0.2.0...v0.3.0](https://github.com/Palette-Labs-Inc/local-protocol-php/compare/v0.2.0...v0.3.0)
+
+### Features
+
+* JSON Schema generation using zod ([7a6cb1f](https://github.com/Palette-Labs-Inc/local-protocol-php/commit/7a6cb1f40f814f4b886195c637cc1ab62badc2ec))
+
+
+### Bug Fixes
+
+* **client:** properly generate file params ([d5a6bd5](https://github.com/Palette-Labs-Inc/local-protocol-php/commit/d5a6bd597ae9c0ac8ddeb7e2b8be47451645f1b6))
+
+
+### Chores
+
+* **internal:** codegen related update ([11ceebc](https://github.com/Palette-Labs-Inc/local-protocol-php/commit/11ceebc655cc3b60b7d99d46e352bc4338483e29))
+* **internal:** remove mock server code ([6df31c8](https://github.com/Palette-Labs-Inc/local-protocol-php/commit/6df31c8dfa17a83f2454757d8979c1d14d136051))
+* **internal:** tweak CI branches ([ce37bb9](https://github.com/Palette-Labs-Inc/local-protocol-php/commit/ce37bb94dac2f2afbc2e06a6f406b29e2f749913))
+* **internal:** upgrade phpunit ([9163120](https://github.com/Palette-Labs-Inc/local-protocol-php/commit/9163120125a99ba2c94fe1c88e9c637a19f95f7d))
+* update mock server docs ([bb9083d](https://github.com/Palette-Labs-Inc/local-protocol-php/commit/bb9083d082c6823f344ff214187bbd7fc76457ba))
+
 ## 0.2.0 (2026-02-10)
 
 Full Changelog: [v0.1.0...v0.2.0](https://github.com/Palette-Labs-Inc/local-protocol-php/compare/v0.1.0...v0.2.0)
